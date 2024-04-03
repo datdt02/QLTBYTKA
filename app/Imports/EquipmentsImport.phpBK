@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Imports;
+
+use App\Models\Equipment;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+
+
+class EquipmentsImport implements ToModel, WithValidation , WithHeadingRow
+{
+    /**
+    * @param array $row
+    *
+    * @return \Illuminate\Database\Eloquent\Model|null
+    */
+    public function headingRow() : int
+    {
+        return 3;
+    }
+    
+
+    public function rules(): array
+    {
+        return [
+            'serial_number' => 'unique:equipments,serial'
+        ];
+
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            'serial_number.unique' => 'Trường serial bị trùng !',
+        ];
+    }
+
+
+    public function model(array $row)
+    {
+        $department_id = request('department_id');
+        $row['department_id'] = $department_id;
+ 
+        if(isset($row['title']) || isset($row['ten_thiet_bi']) ) {
+            return new Equipment([
+                'title' => $row['title'] ?? $row['ten_thiet_bi'],
+                'model' => $row['model'] ?? $row['model'],
+                'serial' => $row['serial'] ?? $row['serial_number'],
+                'year_use' => $row['year_use'] ?? $row['nam_su_dung'],
+                'note' => $row['note'] ?? $row['ghi_chu'],
+                'type' => 'devices',
+                'status' => $row['status'] ?? $row['tinh_trang_su_dung'],
+                'specificat' => $row['specificat'] ?? $row['thong_so_ky_thuat'],
+                'configurat' => $row['configurat'] ?? $row['cau_hinh_cung_cap'],
+                'first_value' => $row['first_value'] ?? $row['gia_nhap'],
+                'department_id' => $row['department_id'] ?? $row['khoa_su_dung'] ,
+            ]);
+        }else {
+            return null;
+        }
+    }
+}

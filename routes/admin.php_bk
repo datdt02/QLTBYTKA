@@ -1,0 +1,611 @@
+<?php
+
+
+
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\backends\OptionController;
+
+use App\Http\Controllers\backends\RoleController;
+
+use App\Http\Controllers\backends\media\MediaAdminController;
+
+use App\Http\Controllers\backends\media\MediaCatAdminController;
+
+use App\Http\Controllers\backends\UserAdminController;
+
+use App\Http\Controllers\backends\PageAdminController;
+
+use App\Http\Controllers\backends\DepartmentController;
+
+use App\Http\Controllers\backends\ProviderController;
+
+use App\Http\Controllers\backends\MaintenanceController;
+
+use App\Http\Controllers\backends\CatesController;
+
+use App\Http\Controllers\backends\DeviceController;
+
+use App\Http\Controllers\backends\SupplieController;
+
+use App\Http\Controllers\backends\UnitController;
+
+use App\Http\Controllers\backends\ProjectController;
+
+use App\Http\Controllers\backends\EquipmentController;
+
+use App\Http\Controllers\backends\ActionController;
+
+
+/*
+
+|--------------------------------------------------------------------------
+
+| Web Routes
+
+|--------------------------------------------------------------------------
+
+|
+
+| Here is where you can register web routes for your application. These
+
+| routes are loaded by the RouteServiceProvider within a group which
+
+| contains the "web" middleware group. Now create something great!
+
+|
+
+*/
+
+
+
+Route::get('/', function () {return view('backends.dashboard');})->name('admin.dashboard');
+
+Route::group(['prefix'=>'page'],function(){
+
+	Route::get('/',[PageAdminController::class, 'index'])->name('pageAdmin');
+
+	Route::get('/create',[PageAdminController::class, 'store'])->name('storePageAdmin');
+
+	Route::post('/create',[PageAdminController::class, 'create'])->name('createPageAdmin');
+
+	Route::get('/edit/{id}',[PageAdminController::class, 'edit'])->name('editPageAdmin');
+
+	Route::post('/edit/{id}',[PageAdminController::class, 'update'])->name('updatePageAdmin');
+
+	Route::post('/slug/{id}',[PageAdminController::class, 'changeSlug'])->name('slugPageAdmin');
+
+	Route::post('/delete/{id}',[PageAdminController::class, 'delete'])->name('deletePageAdmin');
+
+	Route::post('/delete-choose',[PageAdminController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+Route::group(['prefix'=>'blog'],function(){
+
+	Route::get('/',[BlogAdminController::class, 'index'])->name('blogAdmin');
+
+	Route::get('/create',[BlogAdminController::class, 'store'])->name('storeBlogAdmin');
+
+	Route::post('/create',[BlogAdminController::class, 'create'])->name('createBlogAdmin');
+
+	Route::get('/edit/{id}',[BlogAdminController::class, 'edit'])->name('editBlogAdmin');
+
+	Route::post('/edit/{id}',[BlogAdminController::class, 'update'])->name('updateBlogAdmin');
+
+	Route::post('/slug/{id}',[BlogAdminController::class, 'changeSlug'])->name('slugBlogAdmin');
+
+	Route::post('/delete/{id}',[BlogAdminController::class, 'delete'])->name('deleteBlogAdmin');
+
+	Route::post('/delete-choose',[BlogAdminController::class, 'deleteChoose'])->name('deleteChooseBlogAdmin');
+
+});
+
+Route::group(['prefix'=>'blog-cat'],function(){
+
+	Route::get('/',[BlogCatAdminController::class, 'index'])->name('blogCatAdmin');
+
+	Route::get('/create',[BlogCatAdminController::class, 'store'])->name('storeBlogCatAdmin');
+
+	Route::post('/create',[BlogCatAdminController::class, 'create'])->name('createBlogCatAdmin');
+
+	Route::get('/edit/{id}',[BlogCatAdminController::class, 'edit'])->name('editBlogCatAdmin');
+
+	Route::post('/edit/{id}',[BlogCatAdminController::class, 'update'])->name('updateBlogCatAdmin');
+
+	Route::post('/slug/{id}',[BlogCatAdminController::class, 'changeSlug'])->name('slugBlogCatAdmin');
+
+	Route::post('/delete/{id}',[BlogCatAdminController::class, 'delete'])->name('deleteBlogCatAdmin');
+
+	Route::post('/delete-choose',[BlogCatAdminController::class, 'deleteChoose'])->name('deleteChooseBlogCatAdmin');
+
+});
+
+Route::group(['prefix'=>'faqs'],function(){
+
+	Route::get('/',[FaqsAdminController::class, 'index'])->name('faqsAdmin');
+
+	Route::get('/create',[FaqsAdminController::class, 'store'])->name('storeFaqsdmin');
+
+	Route::post('/create',[FaqsAdminController::class, 'create'])->name('createFaqsAdmin');
+
+	Route::get('/edit/{id}',[FaqsAdminController::class, 'edit'])->name('editFaqsAdmin');
+
+	Route::post('/edit/{id}',[FaqsAdminController::class, 'update'])->name('updateFaqsAdmin');
+
+	Route::post('/slug/{id}',[FaqsAdminController::class, 'changeSlug'])->name('slugFaqsAdmin');
+
+	Route::post('/delete/{id}',[FaqsAdminController::class, 'delete'])->name('deleteFaqsAdmin');
+
+	Route::post('/delete-choose',[FaqsAdminController::class, 'deleteChoose'])->name('deleteChooseFaqsAdmin');
+
+});
+
+Route::group(['prefix'=>'media'],function(){
+
+	Route::get('/',[MediaAdminController::class, 'index'])->name('mediaAdmin');
+
+	Route::get('/create',[MediaAdminController::class, 'store'])->name('storeMediaAdmin');
+
+	Route::post('/create',[MediaAdminController::class, 'create'])->name('createMediaAdmin');
+
+	Route::get('/edit/{id}',[MediaAdminController::class, 'edit'])->name('editMediaAdmin');
+
+	Route::post('/edit/{id}',[MediaAdminController::class, 'update'])->name('updateMediaAdmin');
+
+	Route::post('/slug/{id}',[MediaAdminController::class, 'changeSlug'])->name('slugMediaAdmin');
+
+	Route::post('/delete/{id}',[MediaAdminController::class, 'delete'])->name('deleteMediaAdmin');
+
+	Route::post('/delete-choose',[MediaAdminController::class, 'deleteChoose'])->name('deleteChooseMediaAdmin');
+
+	Route::post('/popup-media',[MediaAdminController::class, 'loadMediaPopup'])->name('popupMediaAdmin');
+
+	Route::get('/popup-delete-media',[MediaAdminController::class, 'deleteMediaSinglePopup'])->name('popupDeleteMediaSingleAdmin');
+
+	Route::post('/popup-more-media',[MediaAdminController::class, 'loadMorePagePopup'])->name('popupMoreMediaAdmin');
+
+	Route::post('/popup-filter-media',[MediaAdminController::class, 'filterMediaPopup'])->name('popupFilterMediaAdmin');
+
+	Route::post('/popup-search-media-cat',[MediaAdminController::class, 'loadMediaByCatPopup'])->name('popupSearchCatMediaAdmin');
+
+});
+
+Route::group(['prefix'=>'media-cate'],function(){
+
+	Route::get('/',[MediaCatAdminController::class, 'index'])->name('mediaCatAdmin');
+
+	Route::get('/create',[MediaCatAdminController::class, 'store'])->name('storeMediaCatAdmin');
+
+	Route::post('/create',[MediaCatAdminController::class, 'create'])->name('createMediaCatAdmin');
+
+	Route::get('/edit/{id}',[MediaCatAdminController::class, 'edit'])->name('editMediaCatAdmin');
+
+	Route::post('/edit/{id}',[MediaCatAdminController::class, 'update'])->name('updateMediaCatAdmin');
+
+	Route::post('/slug/{id}',[MediaCatAdminController::class, 'changeSlug'])->name('slugMediaCatAdmin');
+
+	Route::post('/delete/{id}',[MediaCatAdminController::class, 'delete'])->name('deleteMediaCatAdmin');
+
+	Route::post('/delete-choose',[MediaCatAdminController::class, 'deleteChoose'])->name('deleteChooseMediaCatAdmin');
+
+});
+
+Route::group(['prefix'=>'user'],function(){
+
+	Route::get('/',[UserAdminController::class, 'index'])->name('admin.users');
+
+	Route::get('/create',[UserAdminController::class, 'create'])->name('admin.user_create');
+
+	Route::post('/create',[UserAdminController::class, 'store'])->name('admin.user_store');
+
+	Route::get('/edit/{id}',[UserAdminController::class, 'edit'])->name('admin.user_edit');
+
+	Route::post('/edit/{id}',[UserAdminController::class, 'update'])->name('admin.user_update');
+
+	Route::post('/delete/{id}',[UserAdminController::class, 'delete'])->name('admin.user_delete');
+
+	Route::post('/delete-choose',[UserAdminController::class, 'deleteChoose'])->name('admin.users_delete_choose');
+
+	// Route::get('/create-permission/{permission}',[UserAdminController::class, 'createPermission'])->name('admin.permission_create');
+
+});
+
+Route::group(['prefix'=>'system'],function(){
+
+	Route::get('/option', [OptionController::class, 'index'])->name('admin.system');
+
+	Route::post('/option', [OptionController::class, 'update'])->name('admin.system_update');
+
+	Route::group(['prefix'=>'roles'],function(){
+
+		Route::get('/',[RoleController::class, 'index'])->name('admin.roles');
+
+		Route::get('/create',[RoleController::class, 'create'])->name('admin.role_create');
+
+		Route::post('/create',[RoleController::class, 'store'])->name('admin.role_store');
+
+		Route::get('/edit/{id}',[RoleController::class, 'edit'])->name('admin.role_edit');
+
+		Route::post('/edit/{id}',[RoleController::class, 'update'])->name('admin.role_update');
+
+		Route::post('/delete/{id}',[RoleController::class, 'delete'])->name('admin.role_delete');
+
+		Route::post('/delete-choose',[RoleController::class, 'deleteChoose'])->name('admin.roles_delete_choose');
+
+	});
+
+});
+
+
+Route::group(['prefix'=>'department'],function(){
+
+	Route::get('/',[DepartmentController::class, 'index'])->name('department.index');
+
+	Route::post('/create',[DepartmentController::class, 'store'])->name('department.post');
+
+	Route::get('/create',[DepartmentController::class, 'create'])->name('department.create');
+
+	Route::get('/edit/{id}',[DepartmentController::class, 'edit'])->name('department.edit');
+
+	Route::put('/edit/{id}',[DepartmentController::class, 'update'])->name('department.put');
+
+	Route::post('/delete/{id}',[DepartmentController::class, 'destroy'])->name('department.delete');
+
+	Route::post('/delete-choose',[DepartmentController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+
+
+Route::group(['prefix'=>'provider'],function(){
+
+	Route::get('/',[ProviderController::class, 'index'])->name('provider.index');
+
+	Route::post('/create',[ProviderController::class, 'store'])->name('provider.post');
+
+	Route::get('/create',[ProviderController::class, 'create'])->name('provider.create');
+
+	Route::get('/edit/{id}',[ProviderController::class, 'edit'])->name('provider.edit');
+
+	Route::put('/edit/{id}',[ProviderController::class, 'update'])->name('provider.put');
+
+	Route::post('/delete/{id}',[ProviderController::class, 'destroy'])->name('provider.delete');
+
+});
+
+Route::group(['prefix'=>'maintenance'],function(){
+
+	Route::get('/',[ProviderController::class, 'indexMaintenance'])->name('maintenance.index');
+
+	Route::post('/create',[ProviderController::class, 'storeMaintenance'])->name('maintenance.post');
+
+	Route::get('/create',[ProviderController::class, 'createMaintenance'])->name('maintenance.create');
+
+	Route::get('/edit/{id}',[ProviderController::class, 'editMaintenance'])->name('maintenance.edit');
+
+	Route::put('/edit/{id}',[ProviderController::class, 'updateMaintenance'])->name('maintenance.put');
+
+	Route::post('/delete/{id}',[ProviderController::class, 'destroyMaintenance'])->name('maintenance.delete');
+
+});
+
+
+Route::group(['prefix'=>'cates'],function(){
+
+	Route::get('/',[CatesController::class, 'index'])->name('equipment_cate.index');
+
+	Route::post('/create',[CatesController::class, 'store'])->name('equipment_cate.post');
+
+	Route::get('/create',[CatesController::class, 'create'])->name('equipment_cate.create');
+
+	Route::get('/edit/{id}',[CatesController::class, 'edit'])->name('equipment_cate.edit');
+
+	Route::put('/edit/{id}',[CatesController::class, 'update'])->name('equipment_cate.put');
+
+	Route::post('/delete/{id}',[CatesController::class, 'destroy'])->name('equipment_cate.delete');
+
+	Route::post('/delete-choose',[CatesController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+Route::group(['prefix'=>'device'],function(){
+
+	Route::get('/',[DeviceController::class, 'index'])->name('type_device.index');
+
+	Route::post('/create',[DeviceController::class, 'store'])->name('type_device.post');
+
+	Route::get('/create',[DeviceController::class, 'create'])->name('type_device.create');
+
+	Route::get('/edit/{id}',[DeviceController::class, 'edit'])->name('type_device.edit');
+
+	Route::put('/edit/{id}',[DeviceController::class, 'update'])->name('type_device.put');
+
+	Route::post('/delete/{id}',[DeviceController::class, 'destroy'])->name('type_device.delete');
+
+	Route::post('/delete-choose',[DeviceController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+Route::group(['prefix'=>'repair'],function(){
+
+	Route::get('/',[ProviderController::class, 'indexRepair'])->name('repair.index');
+
+	Route::post('/create',[ProviderController::class, 'storeRepair'])->name('repair.post');
+
+	Route::get('/create',[ProviderController::class, 'createRepair'])->name('repair.create');
+
+	Route::get('/edit/{id}',[ProviderController::class, 'editRepair'])->name('repair.edit');
+
+	Route::put('/edit/{id}',[ProviderController::class, 'updateRepair'])->name('repair.put');
+
+	Route::post('/delete/{id}',[ProviderController::class, 'destroyRepair'])->name('repair.delete');
+
+	Route::post('/delete-choose',[ProviderController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+
+
+Route::group(['prefix'=>'supplie'],function(){
+
+	Route::get('/',[SupplieController::class, 'index'])->name('supplie.index');
+
+	Route::post('/create',[SupplieController::class, 'store'])->name('supplie.post');
+
+	Route::get('/create',[SupplieController::class, 'create'])->name('supplie.create');
+
+	Route::get('/edit/{id}',[SupplieController::class, 'edit'])->name('supplie.edit');
+
+	Route::put('/edit/{id}',[SupplieController::class, 'update'])->name('supplie.put');
+
+	Route::post('/delete/{id}',[SupplieController::class, 'destroy'])->name('supplie.delete');
+
+	Route::post('/delete-choose',[SupplieController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+Route::group(['prefix'=>'unit'],function(){
+
+	Route::get('/',[UnitController::class, 'index'])->name('unit.index');
+
+	Route::post('/create',[UnitController::class, 'store'])->name('unit.post');
+
+	Route::get('/create',[UnitController::class, 'create'])->name('unit.create');
+
+	Route::get('/edit/{id}',[UnitController::class, 'edit'])->name('unit.edit');
+
+	Route::put('/edit/{id}',[UnitController::class, 'update'])->name('unit.put');
+
+	Route::post('/delete/{id}',[UnitController::class, 'destroy'])->name('unit.delete');
+
+	Route::post('/delete-choose',[UnitController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+Route::group(['prefix'=>'project'],function(){
+
+	Route::get('/',[ProjectController::class, 'index'])->name('project.index');
+
+	Route::post('/create',[ProjectController::class, 'store'])->name('project.post');
+
+	Route::get('/create',[ProjectController::class, 'create'])->name('project.create');
+
+	Route::get('/edit/{id}',[ProjectController::class, 'edit'])->name('project.edit');
+
+	Route::put('/edit/{id}',[ProjectController::class, 'update'])->name('project.put');
+
+	Route::post('/delete/{id}',[ProjectController::class, 'destroy'])->name('project.delete');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+Route::group(['prefix'=>'equipment'],function(){
+
+	Route::get('/device',[EquipmentController::class, 'index'])->name('equipment.index');
+
+	Route::get('/listImports',[EquipmentController::class, 'listImport'])->name('equipment.listimport');
+
+	Route::get('/show/{id}',[EquipmentController::class, 'show'])->name('equipment.show');
+
+	Route::post('/create',[EquipmentController::class, 'store'])->name('equipment.post');
+
+	Route::get('/create',[EquipmentController::class, 'create'])->name('equipment.create');
+
+	Route::get('/history',[EquipmentController::class, 'showHistory'])->name('equipment.history');
+
+	Route::get('/edit/{id}',[EquipmentController::class, 'edit'])->name('equipment.edit');
+
+	Route::get('/export',[EquipmentController::class, 'export'])->name('equipment.export');
+
+	Route::post('/import',[EquipmentController::class, 'import'])->name('equipment.import');
+
+	Route::put('/edit/{id}',[EquipmentController::class, 'update'])->name('equipment.put');
+
+	Route::post('/delete/{id}',[EquipmentController::class, 'destroy'])->name('equipment.delete');
+
+	Route::post('/deleteHistory/{id}',[EquipmentController::class, 'destroyHistory'])->name('equipment.destroyHistory');
+
+	Route::post('/select',[EquipmentController::class, 'select'])->name('equiment.select');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+Route::group(['prefix'=>'eqsupplie'],function(){
+
+	Route::get('/',[EquipmentController::class, 'indexSupplie'])->name('eqsupplie.index');
+
+	Route::get('/listImportsSupplie',[EquipmentController::class, 'listImportSupplie'])->name('eqsupplie.listimport');
+
+	Route::get('/show/{id}',[EquipmentController::class, 'showSupplie'])->name('eqsupplie.show');
+
+	Route::post('/create',[EquipmentController::class, 'storeSupplie'])->name('eqsupplie.post');
+
+	Route::get('/create',[EquipmentController::class, 'createSupplie'])->name('eqsupplie.create');
+
+	Route::get('/edit/{id}',[EquipmentController::class, 'editSupplie'])->name('eqsupplie.edit');
+
+	Route::get('/exportSupplie',[EquipmentController::class, 'exportSupplie'])->name('eqsupplie.export');
+
+	Route::put('/edit/{id}',[EquipmentController::class, 'updateSupplie'])->name('eqsupplie.put');
+
+	Route::post('/import',[EquipmentController::class, 'importSupplie'])->name('eqsupplie.import');
+
+	Route::post('/delete/{id}',[EquipmentController::class, 'destroySupplie'])->name('eqsupplie.delete');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+
+Route::group(['prefix'=>'eqrepair'],function(){
+	
+	Route::get('/',[ActionController::class, 'index'])->name('eqrepair.index');
+
+	Route::post('/create',[ActionController::class, 'store'])->name('eqrepair.post');
+
+	Route::get('/create',[ActionController::class, 'create'])->name('eqrepair.create');
+
+	Route::get('/edit/{id}',[ActionController::class, 'edit'])->name('eqrepair.edit');
+
+	Route::put('/edit/{id}',[ActionController::class, 'update'])->name('eqrepair.put');
+
+	Route::post('/delete/{id}',[ActionController::class, 'destroy'])->name('eqrepair.delete');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+Route::group(['prefix'=>'periodic'],function(){
+	
+	Route::get('/',[ActionController::class, 'indexPeriodic'])->name('periodic.index');
+
+	Route::post('/create',[ActionController::class, 'storePeriodic'])->name('periodic.post');
+
+	Route::get('/create',[ActionController::class, 'createPeriodic'])->name('periodic.create');
+
+	Route::get('/edit/{id}',[ActionController::class, 'editPeriodic'])->name('periodic.edit');
+
+	Route::put('/edit/{id}',[ActionController::class, 'updatePeriodic'])->name('periodic.put');
+
+	Route::post('/delete/{id}',[ActionController::class, 'destroyPeriodic'])->name('periodic.delete');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+
+Route::group(['prefix'=>'eqaccre'],function(){
+	
+	Route::get('/',[ActionController::class, 'indexAccre'])->name('eqaccre.index');
+
+	Route::post('/create',[ActionController::class, 'storeAccre'])->name('eqaccre.post');
+
+	Route::get('/create',[ActionController::class, 'createAccre'])->name('eqaccre.create');
+
+	Route::get('/edit/{id}',[ActionController::class, 'editAccre'])->name('eqaccre.edit');
+
+	Route::put('/edit/{id}',[ActionController::class, 'updateAccre'])->name('eqaccre.put');
+
+	Route::post('/delete/{id}',[ActionController::class, 'destroyAccre'])->name('eqaccre.delete');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+Route::group(['prefix'=>'transfer'],function(){
+	
+	Route::get('/',[ActionController::class, 'indexTransfer'])->name('transfer.index');
+
+	Route::post('/create',[ActionController::class, 'storeTransfer'])->name('transfer.post');
+
+	Route::get('/create',[ActionController::class, 'createTransfer'])->name('transfer.create');
+
+	Route::get('/edit/{id}',[ActionController::class, 'editTransfer'])->name('transfer.edit');
+
+	Route::put('/edit/{id}',[ActionController::class, 'updateTransfer'])->name('transfer.put');
+
+	Route::post('/delete/{id}',[ActionController::class, 'destroyTransfer'])->name('transfer.delete');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+
+Route::group(['prefix'=>'liquidation'],function(){
+	
+	Route::get('/',[ActionController::class, 'indexLiquida'])->name('liquidation.index');
+
+	Route::post('/create',[ActionController::class, 'storeLiquida'])->name('liquidation.post');
+
+	Route::get('/create',[ActionController::class, 'createLiquida'])->name('liquidation.create');
+
+	Route::get('/edit/{id}',[ActionController::class, 'editLiquida'])->name('liquidation.edit');
+
+	Route::put('/edit/{id}',[ActionController::class, 'updateLiquida'])->name('liquidation.put');
+
+	Route::post('/delete/{id}',[ActionController::class, 'destroyLiquida'])->name('liquidation.delete');
+
+	Route::post('/delete-choose',[ProjectController::class, 'deleteChoose'])->name('deleteChoosePageAdmin');
+
+});
+
+
+
+
+
+
+
+Route::get('/clear-cache', function() {
+
+    Artisan::call('cache:clear');
+
+    return "Application cache flushed";
+
+});
+
+Route::get('/clear-route-cache', function() {
+
+    Artisan::call('route:clear');
+
+    return "Route cache file removed";
+
+});
+
+Route::get('/clear-config-cache', function() {
+
+    Artisan::call('config:clear');
+
+    return "Configuration cache file removed";
+
+});
+
+Route::get('/tesss', function() {
+
+    Artisan::call('optimize');
+
+    return "optimize file removed";
+
+});
+
+Route::get('/updateapp', function() {
+
+    system('composer dump-autoload');
+
+    echo 'dump-autoload completed';
+
+});

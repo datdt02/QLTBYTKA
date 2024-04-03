@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Exports;
+
+use App\Models\Liquidation;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
+
+class ExportLiquidationList implements FromCollection, WithHeadings , WithMapping ,ShouldAutoSize ,WithEvents
+{
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+
+    private $i = 1;
+    protected $departments_id;
+    protected $startDate;
+    protected $endDate;
+    protected $key;
+    protected $status_key;
+    public function __construct($departments_id,$startDate,$endDate,$key, $status_key) {
+        $this->departments_id = $departments_id;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+        $this->key = $key;
+        $this->status_key = $status_key;
+    }
+    public function collection()
+    {
+        $departments_id = $this->departments_id;
+        $startDate = $this->startDate;
+        $endDate = $this->endDate;
+        $key = $this->key;
+        $status_key = $this->status_key;
+        $liquidations = Liquidation::query();
+        $eq_query = function ($query) use ($key) {
+            return $query->select('equipments.id','equipments.title')->where('equipments.title','like','%'.$key.'%');
+        };
+        $depart_query = function ($query) use ($departments_id) {
+            return $query->select('id','title')->where('departments.id', $departments_id );
+        };
+        if($departments_id != '') $liquidations= $liquidations->whereHas('equipment.equipment_department', $depart_query);
+        if($key != '') $liquidations= $liquidations->whereHas('equipment', $eq_query);
+        if($startDate == '') $liquidations= $liquidations->whereDate('liquidations.created_at', '<=', $endDate);
+            else $liquidations= $liquidations->whereDate('liquidations.created_at', '>=', $startDate)->whereDate('liquidations.created_at', '<=', $endDate);
+        if($status_key != '') $liquidations= $liquidations->where('status', $status_key);
+        $liquidations = $liquidations->orderBy('status','desc')->get();
+        return $liquidations;
+    }
+
+    public function headings() :array {
+        return [
+         "#STT",
+         "Khoa",
+"Mã khoa",
+         "Mã hoá TB",
+         "Tên TB",
+         "ĐVT",
+         "Model",
+         "S/N",
+         "Trạng thái",
+         "Lý do",
+         "Người tạo",
+         "Số lượng",
+        ];
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class    => function(AfterSheet $event) {
+                $cellRange = 'A1:K1';
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(12);
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setBold(true);
+            },
+        ];
+    }
+
+
+    public function map($liquidation): array {
+        $status = getStatusLiquidation();
+        return [
+            $this->i++,
+            isset($liquidation->equipment->equipment_department) ? $liquidation->equipment->equipment_department->title : '-',
+            isset($liquidation->equipment) ? $liquidation->equipment->code : '-',
+            isset($liquidation->equipment) ? $liquidation->equipment->title : '-',
+            isset($liquidation->equipment->equipment_unit)? $liquidation->equipment->equipment_unit->title : '-',
+            isset($liquidation->equipment) ? $liquidation->equipment->model : '-',
+            isset($liquidation->equipment) ? $liquidation->equipment->serial : '-',
+            $status[$liquidation->status] ,
+            $liquidation->reason != null ? $liquidation->reason : '-' ,
+            isset($liquidation->user) ? $liquidation->user->name : '-' ,
+            $liquidation->amount != null ? $liquidation->amount : '0' ,
+        ];
+    }
+
+
+}

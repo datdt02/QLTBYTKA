@@ -1,0 +1,135 @@
+
+#library-multi-file .modal-dialog, .library-file .modal-dialog {
+    max-width: 92%;
+    width: 92%;
+}
+#library-multi-file .modal-header, .library-file .modal-header {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+#library-multi-file .tab-content .top, .library-file .tab-content .top {
+    margin: 10px -15px;
+}
+
+#library-multi-file #files, .library-file  {
+    float: left;
+    width: 100%;
+    max-height: 50em;
+    overflow:auto;
+    min-height: 320px;
+}
+#library-multi-file .nav, .library-file .nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+#library-multi-file .nav-tabs, .library-file .nav-tabs {
+    border-bottom: 1px solid #ddd;
+}
+#library-multi-file .nav-tabs>li, .library-file .nav-tabs>li {
+    float: left;
+    margin-bottom: -1px;
+}
+#library-multi-file .nav>li, .library-file .nav>li {
+    position: relative;
+    display: block;
+}
+#library-multi-file .nav-tabs>li>a.active, #library-multi-file .nav-tabs>li>a.active:focus, #library-multi-file .nav-tabs>li>a:hover,
+.library-file .nav-tabs>li>a.active, .library-file .nav-tabs>li>a.active:focus, .library-file .nav-tabs>li>a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+#library-multi-file .nav-tabs>li>a, .library-file .nav-tabs>li>a  {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+}
+#library-multi-file .nav>li>a, .library-file .nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+#library-multi-file .frm-input, .library-file .library__search {
+    width: 100%;
+    box-shadow: inset 0 1px 0 0 rgba(63,63,68,.05);
+    border: 1px solid #c4cdd5;
+    padding: 5px 10px 5px 30px;
+    border-radius: 3px;
+}
+#library-multi-file .tab-content #media .top #media-find i, .library-file .tab-content #mediaMulti .library__search i {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    color: #c2baba;
+}
+#library-multi-file .list-media, .library-file .list-media {
+    padding: 0;
+    width: 100%;
+    clear: both;
+}
+#library-multi-file .list-media .image-item, .library-file .list-media .image-item, .result-multi .image-item {
+    display: inline-block;
+    width: 10%;
+    margin: 8px;
+    height: 100px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    min-width: 150px;
+}
+#library-multi-file .list-media .image-item .wrap, .library-file .list-media .image-item .wrap, .result-multi .wrap {background-color: #ddd;}
+#library-multi-file .list-media .image-item img, .library-file .list-media .image-item img, .result-multi .wrap img {
+    cursor: pointer;
+    width: 100%;
+}
+#library-multi-file .tab-content #media .top #media-find input {
+    padding-left: 30px;
+}
+/*#library-multi-file #file-detail, .library #file-detail {
+    position: fixed;
+    right: 40px;
+    top: 105px;
+}*/
+#library-multi-file #file-detail .wrap, .library-file #media-detail .wrap {
+    border-left: 1px solid #ddd;
+    padding: 10px;
+    background: #f3f3f3;
+}
+#file-detail h3 {
+    text-transform: uppercase;
+    font-size: 15px;
+}
+#library-multi-file #file-detail h4, .library-file #media-detail h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 5px 0;
+    color: #444;
+}
+#library-multi-file #file-detail .date, .library-file #media-detail .date {
+    color: #666;
+    margin-bottom: 5px;
+}
+#library-multi-file #file-detail .delete, .library-file #media-detail .delete {
+    color: #bc0b0b;
+    font-size: 14px;
+    cursor: pointer;
+}
+#library-multi-file #file-detail .wrap-img, .library-file #media-detail .wrap-img {max-height: 300px; background-color: #ddd;}
+#library-multi-file #addFile #sb-mediaCat .title, .library-file #addFileMulti #sb-mediaCat .title {
+    padding-bottom: 10px;
+    font-size: 15px;
+    text-transform: uppercase;
+    margin: 10px 0;
+    border-bottom: 1px solid #dfe4e8;
+}
+#library-multi-file #addFile #sb-mediaCat label {font-weight: normal;}
+#library-multi-file #addFile .group-action {
+    padding-top: 20px;
+    text-align: right;
+}
+#library-multi-file #addFile .group-action .btn-primary {margin-right: 5px;}
+

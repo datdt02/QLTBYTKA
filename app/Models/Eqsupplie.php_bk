@@ -1,0 +1,97 @@
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Spatie\Activitylog\Traits\LogsActivity;
+class Eqsupplie extends Model {
+    use SluggableScopeHelpers;
+    use Sluggable;
+    use LogsActivity;
+    protected $table = "equipment_supplies";
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    protected $fillable = [
+        'title',
+        'slug',
+        'code',
+        'model',
+        'warehouse',
+        'year_manufacture',
+        'serial',
+        'status',
+        'risk',
+        'amount',
+        'manufacturer',
+        'origin',
+        'maintenance_id',
+        'provider_id',
+        'repair_id',
+        'user_id',
+        'unit_id',
+        'department_id',
+        'image',
+        'last_inspection',
+        'specificat',
+        'first_value',
+        'process',
+        'year_use',
+        'officer_charge_id',
+        'officers_use_id',
+        'first_information',
+        'import_price',
+        'bid_project',
+        'warranty_date',
+        'configurat',
+        'depreciat',
+        'note',
+        'votes',
+        'officer_department_charge_id',
+        'officers_training_id',
+        'supplie_id',
+        'author_id',
+        'expiry',
+        'used',
+        'date_delivery'
+    ];
+    protected static $logAttributes = ['title','status','code'];
+    public function action_repair(){
+        return $this->hasMany('App\Models\Action','equi_id','id')->where('type','equipment_repair')->latest();
+    }
+    public function eqsupplie_user(){
+        return $this->belongsTo('App\Models\User','user_id','id');
+    }
+    public function eqsupplie_unit(){
+        return $this->belongsTo('App\Models\Unit','unit_id','id');
+    }
+    public function eqsupplie_supplie(){
+        return $this->belongsTo('App\Models\Supplie','supplie_id','id');
+    }
+    public function eqsupplie_provider(){
+        return $this->belongsTo('App\Models\Provider','provider_id','id');
+    }
+    public function supplie_devices(){
+        return $this->belongsToMany('App\Models\Equipment','supplies_devices','supplie_id','device_id')->withTimestamps()->withPivot('amount','date_delivery','note','user_id','created_at');
+    }
+    public function compatibles(){
+        return $this->hasMany('App\Models\SupplieDevice','supplie_id','id');
+    }
+    public function used_amount(){
+        return intval($this->compatibles->where('amount', '!=', null)->sum('amount'));
+    }
+    public function remaining_amount(){
+        return intval($this->amount) - intval($this->compatibles->where('amount', '!=', null)->sum('amount'));
+    }
+
+}

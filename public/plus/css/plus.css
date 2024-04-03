@@ -1,0 +1,62 @@
+.page-content .sec-title {
+    color: #fff;
+    text-align: center;
+    font-weight: 500;
+    padding: 20px 0 10px 0;
+    margin-bottom: 20px;
+}
+#form-forgot {
+    max-width: 620px;
+    width: 100%;
+    padding: 30px 20px;
+    margin: 15px auto;
+    background-color: #dfe4e8;
+    color: #000;
+    -webkit-transition: all .3s linear;
+    -moz-transition: all .3s linear;
+    -ms-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+}
+.form-auth table {
+    width: 100%;
+}
+#form-forgot .form-cs {
+    background: #4b545c;
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    text-align: left;
+    padding: 12px 15px;
+    margin: 2px;
+    width: 100%;
+}
+#form-forgot .btn-cs {
+    background: #4b545c;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 10px;
+    min-width: 120px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 22px;
+    margin: 10px 2px 10px;
+    border: none;
+    -webkit-transition: all .5s linear;
+    -moz-transition: all .5s linear;
+    -ms-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
+}
+.notice-pass{
+    padding: 14px 15px;
+    border-radius: 3px;
+    color: #fff;
+    background: #4b545c;
+    width: 65%;
+    margin: 0 auto;
+    font-size: 16px;
+}
