@@ -303,7 +303,7 @@
             'admin/prorepair', 'admin/prorepair/*',
             'admin/eqproperty/maintenances', 'admin/eqproperty/maintenances/*',
             'admin/accre', 'admin/accre*',
-            'admin/transfer', 'admin/transfer/*',
+            'admin/protran', 'admin/protran/*',
             'admin/eqproperty/history', 'admin/eqproperty/history/*',
             'admin/eqproperty/listImports', 'admin/eqproperty/listImports/*',
             'admin/eqproperty/create-view', 'admin/eqproperty/create-view/*',
@@ -364,8 +364,8 @@
                         @endcan
                         @can('transfer.read')
                             <li class="nav-item">
-                                <a href="{{ route('transfer.index') }}"
-                                   class="nav-link {{ Request::is('admin/transfer', 'admin/transfer/*')? ' active': '' }}">
+                                <a href="{{ route('protran.index') }}"
+                                   class="nav-link {{ Request::is('admin/protran', 'admin/protran/*')? ' active': '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>{{ __('Điều chuyển thiết bị') }}</p>
                                 </a>

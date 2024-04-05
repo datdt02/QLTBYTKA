@@ -39,11 +39,12 @@ class LiquidationNotifications extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */ 
     public function toDatabase() {
+        $title = isset($this->liquidation->equipment) ? $this->liquidation->equipment->title : $this->liquidation->eqproperty->title;
         return [
             'id' => $this->liquidation->id,        
             'equip_id' => $this->liquidation->equipment_id,                      
             'user_id' => Auth::id(),                      
-            'content' => 'Phiếu đề nghị thanh lý thiết bị '. $this->liquidation->equipment->title       
+            'content' => 'Phiếu đề nghị thanh lý thiết bị '. $title      
         ];
     }
 

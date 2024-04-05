@@ -19,6 +19,9 @@ class Transfer extends Model {
     public function transfer_equipment(){
         return $this->belongsTo('App\Models\Equipment','equipment_id','id');
     }
+    public function transfer_eqproperty(){
+        return $this->belongsTo('App\Models\Eqproperty','equipment_id','id');
+    }
     public function transfer_department(){
         return $this->belongsTo('App\Models\Department','department_id','id');
     }

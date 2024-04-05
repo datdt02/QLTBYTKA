@@ -36,6 +36,7 @@ use App\Http\Controllers\backends\StatisticController;
 use App\Http\Controllers\backends\SupplieBallotController;
 use App\Http\Controllers\backends\SupplieController;
 use App\Http\Controllers\backends\TransferController;
+use App\Http\Controllers\backends\ProtransferController;
 use App\Http\Controllers\backends\UnitController;
 use App\Http\Controllers\backends\UserAdminController;
 use Illuminate\Support\Facades\Artisan;
@@ -556,6 +557,20 @@ Route::group(['prefix' => 'transfer'], function () {
     Route::get('/edit/{id}-{supplies_id}', [TransferController::class, 'edit'])->name('transfer.edit');
     Route::put('/update/{id}', [TransferController::class, 'update'])->name('transfer.put');
     Route::post('/delete/{id}', [TransferController::class, 'destroy'])->name('transfer.delete');
+});
+// điều chuyển tai san cong
+Route::group(['prefix' => 'protran'], function () {
+    Route::get('/', [ProtransferController::class, 'index'])->name('protran.index');
+    Route::get('/pdf/{id}', [ProtransferController::class, 'showPdf'])->name('protran.showPdf');
+    Route::get('/pdf', [ProtransferController::class, 'pdf'])->name('protran.pdf');
+    Route::get('/transfer-supplie/{id}', [ProtransferController::class, 'transferSupplie'])->name('protran.supplie');
+    Route::post('/getQuantity', [ProtransferController::class, 'getQuantity'])->name('protran.getQuantity');
+    Route::get('/word-export/{id}', [ProtransferController::class, 'wordExport'])->name('protran.wordExport');
+    Route::post('/create', [ProtransferController::class, 'store'])->name('protran.post');
+    Route::get('/create', [ProtransferController::class, 'create'])->name('protran.create');
+    Route::get('/edit/{id}-{supplies_id}', [ProtransferController::class, 'edit'])->name('protran.edit');
+    Route::put('/update/{id}', [ProtransferController::class, 'update'])->name('protran.put');
+    Route::post('/delete/{id}', [ProtransferController::class, 'destroy'])->name('protran.delete');
 });
 // thống kê
 Route::group(['prefix' => 'statistical'], function () {

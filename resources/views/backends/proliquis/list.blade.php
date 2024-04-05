@@ -14,7 +14,7 @@
                         <ul class="nav-filter">
                             <li class="active"><a href="{{ route('proliquis.index') }}">{{ __('Tất cả') }}</a>
                             </li>
-                            <li class=""><a class="btn btn-success" style="color: #fff;"
+                            <li class="" style="display: none;"><a class="btn btn-success" style="color: #fff;"
                                     href="{{ route('general.exportLiquidation') }}"><i class="far fa-file-excel"></i>
                                     {{__('Xuất những thiết bị chờ thanh lý') }}</a></li>
                         </ul>
@@ -78,14 +78,14 @@
                                                     <td>{{ isset($liqui->amount) ? $liqui->amount : '0' }}</td>
                                                     <td>
                                                         <a class="btn btn-info btn-sm"
-                                                            href="{{ route('proliquis.listLiqui', ['equip_id' => $liqui->id]) }}" alt=""><i
+                                                            href="{{ route('proliquis.listLiqui', ['equip_id' => $liqui->id]) }}" title="Danh sách phiếu" alt="Danh sách phiếu"><i
                                                                 class="fa fa-list-alt"></i></a>
                                                         @can('liquidation.create')
                                                             @if ($amount_left > 0)
                                                                 <a class="btn btn-danger btn-sm btn-liqui"
                                                                     href="{{ route('proliquis.store', ['equip_id' => $liqui->id]) }}"
                                                                     title="{{ $liqui->title }}"
-                                                                    number="{{ $liqui->remaining_amount() }}"><i
+                                                                    number="{{ $liqui->remaining_amount() }}" alt="Tạo phiếu thanh lý"><i
                                                                         class="fa fa-plus"></i></a>
                                                             @endif
                                                         @endcan

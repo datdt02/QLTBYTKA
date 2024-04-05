@@ -39,11 +39,12 @@ class PublicLiquiNotifications extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */ 
     public function toDatabase() {
+        $title = isset($this->liquidation->equipment) ? $this->liquidation->equipment->title : $this->liquidation->eqproperty->title;
         return [
             'id' => $this->liquidation->id,        
             'equip_id' => $this->liquidation->equipment_id,
             'user_id' => Auth::id(),                  
-            'content' => 'Thiết bị '.$this->liquidation->equipment->title.' đã được thanh lý.'        
+            'content' => 'Thiết bị '.$title.' đã được thanh lý.'        
         ];
     }
 

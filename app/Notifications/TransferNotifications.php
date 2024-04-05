@@ -39,11 +39,12 @@ class TransferNotifications extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */ 
     public function toDatabase() {
+        $title = isset($this->transfer->transfer_equipment) ? $this->transfer->transfer_equipment->title : $this->transfer->transfer_eqproperty->title;
         return [
             'id' => $this->transfer->id,        
             'equip_id' => $this->transfer->equipment_id,
             'user_id' => Auth::id(),        
-            'content' => 'Phiếu điều chuyển thiết bị '.$this->transfer->transfer_equipment->title      
+            'content' => 'Phiếu điều chuyển thiết bị '.$title      
         ];
     }
 

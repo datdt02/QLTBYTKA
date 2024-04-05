@@ -45,6 +45,11 @@ class Liquidation extends Model {
         return $this->belongsTo('App\Models\Equipment', 'equipment_id', 'id');
 
     }
+    public function eqproperty(){
+
+        return $this->belongsTo('App\Models\Eqproperty', 'equipment_id', 'id');
+
+    }
 
    
 

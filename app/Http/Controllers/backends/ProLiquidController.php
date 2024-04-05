@@ -82,7 +82,7 @@ class ProLiquidController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()):
-            return redirect()->route('eqliquis.index')->withErrors($validator)->withInput();
+            return redirect()->route('proliquis.index')->withErrors($validator)->withInput();
         else:
             $equipment = Eqproperty::findOrFail($equip_id);
             /*$amount = $equipment->liquidations->where('status','waiting')->where('amount', '!=', null)->sum('amount');
@@ -94,7 +94,7 @@ class ProLiquidController extends Controller
                 $atribute = $request->all();
                 $liquidation = Liquidation::create($atribute);
                 //notify
-                $array_user = getUserToNotify($equipment->id);
+                $array_user = getUserPhcToNotify($equipment->id);
                     if($array_user != null){
                         foreach ($array_user as $key => $value) {
                             $user = User::findOrFail($value);
@@ -105,9 +105,9 @@ class ProLiquidController extends Controller
                     $equipment['status'] = 'liquidated';
                     $equipment->update($request->only('status'));
                 }
-                return redirect()->route('eqliquis.index')->with('success','Tạo phiếu đề nghị thanh lý thành công');
+                return redirect()->route('proliquis.index')->with('success','Tạo phiếu đề nghị thanh lý thành công');
             else:
-                return redirect()->route('eqliquis.index')->with('error','Tạo phiếu đề nghị thanh lý thất bại');
+                return redirect()->route('proliquis.index')->with('error','Tạo phiếu đề nghị thanh lý thất bại');
             endif;
         endif;
     }
@@ -137,7 +137,7 @@ class ProLiquidController extends Controller
             // $roles = [$user->roles->first()->name];
             // $array_user = User::role($roles)->pluck('id')->toArray();
 
-            $array_user = getUserToNotify($equipments->id);
+            $array_user = getUserPhcToNotify($equipments->id);
                 if($array_user != null){
                     foreach ($array_user as $key => $value) {
                         $user = User::findOrFail($value);
@@ -167,7 +167,7 @@ class ProLiquidController extends Controller
             ->orWhere('type','App\Notifications\PublicLiquiNotifications')
             ->where('data->id',intval($id))
             ->delete();
-            return redirect()->route('eqliquis.listLiqui',['equip_id'=>$equip_id])->with('success','Xóa thành công');
+            return redirect()->route('proliquis.listLiqui',['equip_id'=>$equip_id])->with('success','Xóa thành công');
         }else{
           abort(403);
         }

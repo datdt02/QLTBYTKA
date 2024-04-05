@@ -13,7 +13,7 @@
          <div class="row search-filter">
             <div class="col-md-2 filter">
                <ul class="nav-filter">
-                  <li class="active"><a href="{{ route('eqliquis.index') }}">{{ __('Tất cả') }}</a></li>
+                  <li class="active"><a href="{{ route('proliquis.index') }}">{{ __('Tất cả') }}</a></li>
                </ul>
             </div>
             <div class="col-md-10">
@@ -70,10 +70,10 @@
                                  <td>
                                     @if($liqui->status == 'waiting')
                                        @can('liquidation.approved')
-                                       <a class="btn btn-info btn-sm btn-lqedit" href="{{ route('eqliquis.update',['equip_id'=>$equipment->id, 'liqui_id'=>$liqui->id]) }}"><i class="fas fa-edit"></i></a>
+                                       <a class="btn btn-info btn-sm btn-lqedit" href="{{ route('proliquis.update',['equip_id'=>$equipment->id, 'liqui_id'=>$liqui->id]) }}"><i class="fas fa-edit"></i></a>
                                        @endcan
                                     @endif
-                                    <a class="btn btn-danger btn-sm" href="{{ route('eqliquis.delete',['equip_id'=>$equipment->id, 'liqui_id'=>$liqui->id]) }}" data-toggle="modal" data-target="#sideModal" data-direct="modal-top-right"><i class="fas fa-trash"></i></a>
+                                    <a class="btn btn-danger btn-sm" href="{{ route('proliquis.delete',['equip_id'=>$equipment->id, 'liqui_id'=>$liqui->id]) }}" data-toggle="modal" data-target="#sideModal" data-direct="modal-top-right"><i class="fas fa-trash"></i></a>
                                  </td>
                               </tr>
                            @endforeach
