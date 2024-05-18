@@ -62,7 +62,7 @@
                                             <th>{{ __('Ngày sửa') }}</th>
                                             <th>{{ __('Ngày sửa xong') }}</th>
                                             <th>{{ __('Tình trạng') }}</th>
-                                            <th>{{ __('Chi phí') }}</th>
+                                            <th>{{ __('Chi phí (Đồng)') }}</th>
                                             <th class="action">{{ __('Tác vụ') }}</th>
                                         </tr>
                                     </thead>
@@ -80,14 +80,17 @@
                                                     <td>{{ $repair->repair_date }}</td>
                                                     <td>{{ $repair->completed_repair }}</td>
                                                     <td>{{ $acceptance[$repair->acceptance] }}</td>
-                                                    <td>{{ $repair->actual_costs }}
+                                                    <td>{{ $repair->actual_costs ? $repair->actual_costs : 0 }}</td>
                                                         @php
-                                                            $totalCost += $repair->actual_costs;
+                                                            $actual_cost = $repair->actual_costs ? str_replace(',', '', $repair->actual_costs) : 0;
+                                                            $totalCost += $actual_cost;
                                                         @endphp</td>
                                                     <td>
+                                                        @if ($repair->acceptance != 'accepted')
                                                         <a class="btn btn-info btn-sm"
                                                             href="{{ route('prorepair.edit', ['equip_id' => $equipment->id, 'repair_id' => $repair->id]) }}"><i
                                                                 class="fas fa-edit"></i></a>
+                                                        @endif
                                                         <a class="btn btn-danger btn-sm"
                                                             href="{{ route('prorepair.delete', ['equip_id' => $equipment->id, 'repair_id' => $repair->id]) }}"
                                                             data-toggle="modal" data-target="#sideModal"
@@ -103,7 +106,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td>Tổng chi phí: </td>
-                                                <td>{{ $totalCost }}</td>
+                                                <td>{{ number_format($totalCost) }}</td>
                                                 <td></td>
                                             </tr>
                                         @else

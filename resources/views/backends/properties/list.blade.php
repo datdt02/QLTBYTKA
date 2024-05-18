@@ -253,7 +253,7 @@
                                                                     </a>
                                                                 @endcan
                                                             @elseif ($equipment->status == 'inactive')
-                                                                @can('eqproperty.liquidation')
+                                                                @can('proliquid.read')
                                                                     <a class="inactive" title="Thanh lý thiết bị"
                                                                         data-href="{{ route('eqproperty.updateInactive', $equipment->id) }}">
                                                                         <i class="fas fa-truck-moving"></i>
@@ -272,12 +272,6 @@
                                                                     <i class="fas fa-exclamation-circle"></i>
                                                                 </a>
                                                             @endif
-                                                            @can('eqproperty.create_supplie')
-                                                                <a title="Nhập vật tư kèm theo"
-                                                                    href="{{ route('eqproperty.createSupplie', $equipment->id) }}">
-                                                                    <i class="fas fa-plus-square"></i>
-                                                                </a>
-                                                            @endcan
                                                             <a title="Hồ sơ thiết bị"
                                                                 href="{{ route('eqproperty.show', $equipment->id) }}">
                                                                 <i class="fa fa-eye"></i>

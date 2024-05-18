@@ -69,7 +69,7 @@
                                  <td>{{ $liqui->person_up !=null ? getUserById($liqui->person_up) : 'NULL' }}</td>
                                  <td>
                                     @if($liqui->status == 'waiting')
-                                       @can('liquidation.approved')
+                                       @can('proliquid.approved')
                                        <a class="btn btn-info btn-sm btn-lqedit" href="{{ route('proliquis.update',['equip_id'=>$equipment->id, 'liqui_id'=>$liqui->id]) }}"><i class="fas fa-edit"></i></a>
                                        @endcan
                                     @endif

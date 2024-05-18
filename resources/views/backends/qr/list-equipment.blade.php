@@ -4,7 +4,7 @@
 <div id="list-events" class="content-wrapper events">
    <section class="content">
       <div class="head container">
-         <h1 class="title">{{ __('Danh sách thiết bị cần kiểm kê') }}</h1>
+         <h1 class="title">{{ __('Danh sách QR code thiết bị') }}</h1>
       </div>
       <div class="main">
          <div class="container-fluid">
@@ -13,12 +13,8 @@
                <form class="dev-form" action="" name="listEvent" method="POST">
                   @csrf
                   <div class="inventory">
-                    <a class="back" href="{{ route('inventory.index') }}">{{ __('Trở lại') }}</a>
-                    <a class="btn btn-primary" href="{{ route('inventory.exportEquipment',['depart_id'=>$department->id]) }}">{{ __('Xuất excel')}}</a>
-                    <a class="btn btn-primary" href="{{ route('inventory.showPdf',['depart_id'=>$department->id]) }}" style="background-color: #f59e42">{{ __('Xuất Pdf')}}</a>
-                    @if($equipments->total() == count($department->inventories))
-                       <a class="btn btn-danger" href="{{ route('inventory.resetInventory',['depart_id'=>$department->id]) }}" data-toggle="modal" data-target="#ResetModal" data-direct="modal-top-right">{{ __('Kiểm kê lại')}}</a>
-                    @endif
+                    <a class="back" href="{{ route('qr.index') }}">{{ __('Trở lại') }}</a>
+                    <a class="btn btn-primary btn-warning" href="{{ route('qr.showPdf',['depart_id'=>$department->id]) }}">{{ __('Xuất Pdf')}}</a>
                   </div>
                   <div class="table-responsive">
                      <table class="table table-bordered table-striped" role="table">
@@ -26,41 +22,25 @@
                            <tr class="bg-blue text-center">
                               <th>{{ __('STT')}}</th>
                               <th >{{ __('Khoa - Phòng') }}</th>
-                              <th>{{ __('Mã hoá TB') }}</th>
                               <th>{{ __('Tên thiết bị') }}</th>
                               <th>{{ __('Model') }}</th>
                               <th>{{ __('Serial') }}</th>
-                              <th>{{ __('Ngày kiểm kê') }}</th>
-                              <th>{{ __('Ghi chú') }}</th>
-                              <th>{{ __('Đã kiểm kê') }}</th>
+                              <th>{{ __('Qr Code') }}</th>
                               <th class="group-action action">{{ __('Tuỳ chọn') }}</th>
                            </tr>
                         </thead>
                         <tbody class="tbody">
                            @if(!$equipments->isEmpty())
                               @foreach($equipments as $key =>$item)
-                                 @php
-                                    $inventory = $item->inventories->sortByDesc('date')->first();
-                                 @endphp
                                  <tr class="text-center">
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ isset($item->equipment_department) ? $item->equipment_department->title : ''}}</td>
-                                    <td>{{ $item->code}}</td>
                                     <td>{{ $item->title}}</td>
                                     <td>{{ $item->model}}</td>
                                     <td>{{ $item->serial}}</td>
-                                    <td>{{ isset($inventory) && $inventory->date != '' ? $inventory->date : '-' }}</td>
-                                    <td>{{ isset($inventory) && $inventory->note != '' ? $inventory->note : '-' }}</td>
-                                    <td>
-                                       @if(isset($inventory) && $inventory->date != '')
-                                          <i class="fas fa-check"></i>
-                                       @endif
-                                    </td>
+                                    <td>{!! QrCode::size(125)->generate($item->id) !!}</td>
                                     <td class="group-action action text-nowrap">
                                        <a class="btn btn-primary btn-sm" href="{{ route('inventory.listInventory',['equip_id'=>$item->id]) }}" class="ml-1 mr-1" title="{{ __('Lịch sử kiểm kê') }}"><i class="fa fa-list-alt"></i></a>
-                                       @if(!isset($inventory))
-                                       <a class="btn btn-danger btn-sm" href="{{ route('inventory.create',['equip_id'=>$item->id]) }}" title-eq="{{ $item->title }}" title="{{ __('Cập nhật thông tin kiểm kê') }}"><i class="fas fa-edit"></i></a>
-                                       @endif
                                     </td>
                                  </tr>
                               @endforeach
@@ -71,11 +51,6 @@
                            @endif
                         </tbody>
                      </table>
-                  </div>
-                  <div class="float-right">
-                    @if($equipments->total() == count($department->inventories))
-                      <a class="btn btn-success" href="{{ route('inventory.completedInventory',['depart_id'=>$department->id]) }}">{{ __('Hoàn thành kiểm kê')}}</a>
-                    @endif
                   </div>
                </form>
                <div class="p-3 mt-2">{{ $equipments->links() }}</div>

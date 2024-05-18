@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\EquipmentController;
+use App\Http\Controllers\Api\EqpropertyController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\StatisticalController;
 use App\Http\Controllers\Api\UserController;
@@ -49,6 +50,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/equipments', [EquipmentController::class, 'index']);
         Route::get('/equipments/{id}', [EquipmentController::class, 'show']);
         Route::post('/equipment/{id}', [EquipmentController::class, 'updateWasBroken']);
+
+        //Equipments
+        Route::get('/eqproperties', [EqpropertyController::class, 'indexV2']);
+        Route::get('/eqproperties/{id}', [EqpropertyController::class, 'show']);
+        Route::post('/eqproperty/{id}', [EqpropertyController::class, 'updateWasBroken']);
 
         //Inventory
         Route::get('/listEquipmentInventory/{depart_id}', [InventoryController::class, 'listEquipment']);

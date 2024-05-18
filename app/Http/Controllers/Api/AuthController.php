@@ -26,7 +26,6 @@ class AuthController extends Controller
                 'email' => 'email|required',
                 'password' => 'required'
             ]);
-            dd(123);
 
             $credentials = request(['email', 'password']);
 

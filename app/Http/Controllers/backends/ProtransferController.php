@@ -25,10 +25,14 @@ class ProtransferController extends Controller
     public function index(Request  $request)
     {
         $user = Auth::user();
-        if ($user->can('transfer.read')) {
+        if ($user->can('protran.read')) {
             $keyword = isset($request->key) ? $request->key : '';
             $status_key = isset($request->status_key) ? $request->status_key : '';
-            $transfers = Transfer::with('transfer_eqproperty', 'transfer_department', 'transfer_user');
+            $transfers = Transfer::with('transfer_eqproperty', 'transfer_department', 'transfer_user')
+            ->whereHas('transfer_eqproperty', function ($query) {
+                $query->whereNotNull('id');
+            })
+            ->get();
             if ($status_key != '') {
                 $transfers = $transfers->where('transfers.status', $status_key);
             }
@@ -39,7 +43,9 @@ class ProtransferController extends Controller
                     $q->select('id', 'title')->where('departments.title', 'like', '%' . $keyword . '%');
                 });
             }
-            $transfers = $transfers->orderBy('created_at', 'desc')->paginate(15);
+            if($transfers->count() > 15) {
+                $transfers = $transfers->orderBy('created_at', 'desc')->paginate(15);
+            }
             return view('backends.protransfer.list', compact('transfers', 'keyword', 'status_key'));
         } else {
             abort(403);
@@ -88,7 +94,7 @@ class ProtransferController extends Controller
     public function create()
     {
         $user = Auth::user();
-        if ($user->can('create', Transfer::class)) {
+        if ($user->can('protran.create')) {
             $equipments = Eqproperty::select('id', 'title', 'serial', 'code', 'model')
                 ->where('department_id', $user->department_id)
                 ->whereIn('status', ['not_handed', 'active'])->get();
@@ -145,7 +151,7 @@ class ProtransferController extends Controller
     {
         $user = Auth::user();
         $transfers = Transfer::findOrFail($id);
-        if ($user->can('transfer.approved')) {
+        if ($user->can('protran.approved')) {
             $equipments_supplies = Eqproperty::findOrFail($supplies_id);
             $equipments = Eqproperty::select('id', 'title', 'code', 'serial', 'model')->where('department_id', $user->department_id)->where('status', '!=', 'was_broken')->get();
             $departments = Department::select('id', 'title')->where('id', '!=', $user->department_id)->get();
@@ -161,8 +167,8 @@ class ProtransferController extends Controller
         $atribute = $request->all();
         $transfers->update($atribute);
         $equipments = Eqproperty::where('id', $transfers->equipment_id)->first();
-        $cates = Cates::select("id", "code")->where('id', $transfers->transfer_equipment->cate_id)->first();
-        $devices = Device::select("id", "code")->where('id', $transfers->transfer_equipment->devices_id)->first();
+        $cates = Cates::select("id", "code")->where('id', $transfers->transfer_eqproperty->cate_id)->first();
+        $devices = Device::select("id", "code")->where('id', $transfers->transfer_eqproperty->devices_id)->first();
         $newYear = Carbon::now()->format('dmY');
         $padded_cates = Str::padLeft(isset($cates->code) ? $cates->code : '', 1, 'X');
         $padded_devices = Str::padLeft(isset($devices->code) ? $devices->code : '', 6, 'X');
@@ -179,7 +185,6 @@ class ProtransferController extends Controller
                     $user->notify(new PublicTransferNotifications($transfers));
                 }
             }
-
             if (intval($equipments->amount) > intval($transfers->amount)) {
                 $equipments->amount = intval($equipments->amount) - intval($transfers->amount);
                 $equipments->save();
@@ -196,19 +201,15 @@ class ProtransferController extends Controller
                     $padded_equipments_id = Str::padLeft($equipments_v1->id, 6, 'X');
                     $equipments_v1->update(['code' => $padded_cates . '-' . $padded_devices . '-' . $newYear . '-' . $padded_equipments_id]);
                 }
-                return redirect()->route('transfer.index')->with('success', 'Cập nhật thành công');
+                return redirect()->route('protran.index')->with('success', 'Cập nhật thành công');
             } elseif (intval($equipments->amount) == intval($transfers->amount)) {
                 $equipments->department_id = $transfers->department_id;
                 $equipments->save();
-                return redirect()->route('transfer.index')->with('success', 'Cập nhật thành công');
+                return redirect()->route('protran.index')->with('success', 'Cập nhật thành công');
             } else {
                 return redirect()->back()->with('error', 'Cập nhật không thành công');
             }
         } elseif ($request->status == "cancel") {
-            //notify
-            // $user= User::where('id',$transfers->user_id)->first();
-            // $roles = [$user->roles->first()->name];
-            // $array_user = User::role($roles)->pluck('id')->toArray();
             $array_user = getUserToNotify($equipments->id);
             if ($array_user != null) {
                 foreach ($array_user as $key => $value) {
@@ -228,7 +229,7 @@ class ProtransferController extends Controller
     {
         $user = Auth::user();
         $transfers = Transfer::findOrFail($id);
-        if ($user->can('delete', $transfers)) {
+        if ($user->can('protran.delete')) {
             $transfers->delete();
             \DB::table('notifications')
                 ->where('type', 'App\Notifications\TransferNotifications')

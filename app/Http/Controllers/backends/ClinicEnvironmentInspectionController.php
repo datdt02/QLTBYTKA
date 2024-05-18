@@ -8,7 +8,7 @@ if(env("APP_ENV") == "production"){
     include __DIR__ . "/../../../helpers/ClinicEnvironmentInspectionHelper.php";
 }
 else{
-    include __DIR__ . "\..\..\..\helpers\ClinicEnvironmentInspectionHelper.php";
+    include __DIR__ . "/../../../helpers/ClinicEnvironmentInspectionHelper.php";
 }
 
 use App\Exports\ClinicEnvironmentInspectionExport;

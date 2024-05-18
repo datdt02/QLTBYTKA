@@ -344,7 +344,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('eqrepair.read')
+                        @can('prorepair.read')
                             <li class="nav-item">
                                 <a href="{{ route('prorepair.index') }}"
                                    class="nav-link {{ Request::is('admin/prorepair', 'admin/prorepair/*')? ' active': '' }}">
@@ -362,7 +362,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('transfer.read')
+                        @can('protran.read')
                             <li class="nav-item">
                                 <a href="{{ route('protran.index') }}"
                                    class="nav-link {{ Request::is('admin/protran', 'admin/protran/*')? ' active': '' }}">
@@ -371,7 +371,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('liquidation.read')
+                        @can('proliquid.read')
                             <li class="nav-item">
                                 <a href="{{ route('proliquis.index') }}"
                                    class="nav-link {{ Request::is('admin/proliquis', 'admin/proliquis/*')? ' active': '' }}">
@@ -380,6 +380,21 @@
                                 </a>
                             </li>
                         @endcan
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-solid fa-qrcode"></i>
+                        <p style="margin-left: 2px;">{{ __('Quản lý mã QR') }}<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('qr.index') }}"
+                               class="nav-link {{ Request::is('admin/qr/*')? ' active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('Theo khoa - phòng') }}</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 @can('project.read')

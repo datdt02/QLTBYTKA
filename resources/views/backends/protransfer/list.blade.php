@@ -95,7 +95,9 @@ $get_statusTransfer = get_statusTransfer();
                      </table>
                   </div>
                </form>
+               @if ( $transfers->count() > 15 )
                {{ $transfers->links() }}
+               @endif
             </div>
          </div>
       </div>

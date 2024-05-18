@@ -71,7 +71,7 @@
                                                 @endphp
                                                 <tr class="text-center">
                                                     <td>{{ ++$key }}</td>
-                                                    <td>{{ isset($liqui->equipment_department) ? $liqui->equipment_department->title : '-' }}
+                                                    <td>{{ isset($liqui->eqproperty_department) ? $liqui->eqproperty_department->title : '-' }}
                                                     </td>
                                                     <td>{{ isset($liqui->code) ? $liqui->code : '-' }}</td>
                                                     <td>{{ isset($liqui->title) ? $liqui->title : '-' }}</td>
@@ -80,7 +80,7 @@
                                                         <a class="btn btn-info btn-sm"
                                                             href="{{ route('proliquis.listLiqui', ['equip_id' => $liqui->id]) }}" title="Danh sách phiếu" alt="Danh sách phiếu"><i
                                                                 class="fa fa-list-alt"></i></a>
-                                                        @can('liquidation.create')
+                                                        @can('proliquid.create')
                                                             @if ($amount_left > 0)
                                                                 <a class="btn btn-danger btn-sm btn-liqui"
                                                                     href="{{ route('proliquis.store', ['equip_id' => $liqui->id]) }}"

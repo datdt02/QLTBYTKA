@@ -17,7 +17,7 @@ $compatibleEq = get_CompatibleEq();
             </div>
             <div class="main">
                 @include('notices.index')
-                <form action="{{ route('transfer.put',$transfers->id) }}" data-filter="{{ route('transfer.getQuantity') }}" class="dev-form" method="POST" data-toggle="validator" role="form">
+                <form action="{{ route('protran.put',$transfers->id) }}" data-filter="{{ route('transfer.getQuantity') }}" class="dev-form" method="POST" data-toggle="validator" role="form">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -26,7 +26,7 @@ $compatibleEq = get_CompatibleEq();
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label class="control-label">{{ __('Tên thiết bị điều chuyển') }} <small></small></label>
-                                        <input type="text" name="equipment_id" class="form-control" value="{{ $transfers->transfer_equipment->title  }} , Model : {{ $transfers->transfer_equipment->model }} ,  Mã hoá TB : {{ $transfers->transfer_equipment->hash_code }} , Serial : {{ $transfers->transfer_equipment->serial }}" disabled>
+                                        <input type="text" name="equipment_id" class="form-control" value="{{ $transfers->transfer_eqproperty->title  }} , Model : {{ $transfers->transfer_eqproperty->model }} ,  Mã hoá TB : {{ $transfers->transfer_eqproperty->hash_code }} , Serial : {{ $transfers->transfer_eqproperty->serial }}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-2">

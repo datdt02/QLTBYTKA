@@ -46,7 +46,7 @@ class ProLiquidController extends Controller
             });
         }
 
-        if($user->can('equipment.show_all')){
+        if($user->can('proliquid.read')){
             $departments = Department::select('id','title')->get();
             if($department_id != ''){
                 $eqliquis = $eqliquis->where('department_id',$department_id);
@@ -160,7 +160,7 @@ class ProLiquidController extends Controller
     public function destroy($equip_id, $id){
         $user = Auth::user();
         $liquidation = Liquidation::findOrFail($id);
-        if ($user->can('delete', $liquidation)) {
+        if ($user->can('proliquid.delete')) {
             $liquidation->delete();
             \DB::table('notifications')
             ->where('type','App\Notifications\LiquidationNotifications')

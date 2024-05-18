@@ -106,7 +106,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label class="control-label">{{ __('Nghiệm thu') }}</label>
-                            @can('eqrepair.approved')
+                            @can('prorepair.approved')
                                 <select  class="select2 form-control" name="acceptance">
                                     @foreach ($acceptance as $key => $acceep)
                                         @if ($key != 'create')

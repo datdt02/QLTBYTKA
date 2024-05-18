@@ -7,7 +7,7 @@ if(env("APP_ENV") == "production"){
     include __DIR__ . "/../../../helpers/LicenseRenewalOfRadiationWorkHelper.php";
 }
 else{
-    include __DIR__ . "\..\..\..\helpers\LicenseRenewalOfRadiationWorkHelper.php";
+    include __DIR__ . "/../../../helpers/LicenseRenewalOfRadiationWorkHelper.php";
 }
 
 use App\Exports\LicenseRenewalOfRadiationWorkExport;

@@ -19,6 +19,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ExportEquipmentInventory;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\InventoryNotifications;
+use Spatie\Activitylog\Models\Activity;
+use PDF;
 
 class InventoryController extends Controller
 {
@@ -157,4 +159,18 @@ class InventoryController extends Controller
         $department = Department::findOrFail($depart_id);
         return Excel::download(new ExportEquipmentInventory($depart_id), 'Danh sách hoàn thành kiểm kê ' . $department->title . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
+    public function showPdf(Request $request, $depart_id)
+    {
+        $user = Auth::user();
+        $department = Department::findOrFail($depart_id);
+        
+        $data = [
+            'department'         => $department,
+            'equipments'      => $department->department_equipment->load('inventories', 'equipment_department')->sortBy('created_at')->simplePaginate(10),
+        ];
+        $pdf = PDF::loadView('backends.inventories.show-pdf', compact('data'));
+        return $pdf->download('Danh sách kiểm kê TB' . $department->title . '.pdf');
+        // return view('backends.inventories.show-pdf', compact('data'));
+    }
+
 }

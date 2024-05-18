@@ -32,7 +32,7 @@ class ProRepairController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        if ($user->can('eqrepair.read')) {
+        if ($user->can('prorepair.read')) {
             $eqrepairs = Eqproperty::with('schedule_repairs', 'eqproperty_department');
             $keyword = isset($request->key) ? $request->key : '';
             $department_id = isset($request->department_id) ? $request->department_id : '';
@@ -83,7 +83,7 @@ class ProRepairController extends Controller
     public function create($equip_id)
     {
         $user = Auth::user();
-        if ($user->can('create', ScheduleRepair::class)) {
+        if ($user->can('prorepair.create')) {
             $equipments = Eqproperty::findOrFail($equip_id);
             $repairs = Provider::select('id', 'title', 'type')->repair()->get();
             $data = [
@@ -193,7 +193,7 @@ class ProRepairController extends Controller
     {
         $user = Auth::user();
         $repair = ScheduleRepair::findOrFail($repair_id);
-        if ($user->can('update', $repair)) {
+        if ($user->can('prorepair.update')) {
             $equipment = Eqproperty::findOrFail($equip_id);
             $repairs = Provider::select('id', 'title', 'type')->repair()->get();
             $users = User::select('id', 'name')->get();
@@ -310,7 +310,7 @@ class ProRepairController extends Controller
     {
         $user = Auth::user();
         $repair = ScheduleRepair::findOrFail($repair_id);
-        if ($user->can('delete', $repair)) {
+        if ($user->can('prorepair.delete')) {
             $repair->delete();
             \DB::table('notifications')
                 ->where('type', 'App\Notifications\RepairNotifications')

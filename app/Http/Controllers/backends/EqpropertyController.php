@@ -121,7 +121,7 @@ class EqpropertyController extends Controller
             $sort = 'sortByDepartment';
             $order = $request->sortByDepartment;
         }
-        if ($user->can('equipment.show_all')) {
+        if ($user->can('eqproperty.show_all')) {
             $department_name = Department::select('id', 'title')->get();
             if ($departments_key != '') {
                 $equipments = $equipments->where('department_id', $departments_key);
@@ -158,91 +158,16 @@ class EqpropertyController extends Controller
         );
     }
 
-    public function indexMedical(Request $request)
-    {
-        $user = Auth::user();
-        $keyword = isset($request->key) ? $request->key : '';
-        $status = isset($request->status) ? $request->status : '';
-        $departments_key = isset($request->department_key) ? $request->department_key : '';
-        $cates_key = isset($request->cate_key) ? $request->cate_key : '';
-        $devices_key = isset($request->device_key) ? $request->device_key : '';
-        $department_name = Department::select('id', 'title')->get();
-        $user_name = User::select('id', 'name')->get();
-        $cate_name = Cates::select('id', 'title')->get();
-        $device_name = Device::select('id', 'title')->get();
-        $equipments = Equipment::query();
-        $order = '';
-        $sort = '';
-        if ($keyword != '') {
-            $equipments = $equipments->where(function ($query) use ($keyword) {
-                $query->where('title', 'like', '%' . $keyword . '%')
-                    ->orWhere('code', 'like', '%' . $keyword . '%')
-                    ->orWhere('model', 'like', '%' . $keyword . '%')
-                    ->orWhere('serial', 'like', '%' . $keyword . '%');
-            });
-        }
-        if ($status != '') {
-            $equipments = $equipments->where('status', $status);
-        }
-        if ($departments_key != '') {
-            $equipments = $equipments->where('department_id', $departments_key);
-        }
-        if ($cates_key != '') {
-            $equipments = $equipments->where('cate_id', $cates_key);
-        }
-        if ($devices_key != '') {
-            $equipments = $equipments->whereHas('equipment_device', function ($query) use ($devices_key) {
-                $query->where('device_id', $devices_key);
-            });
-        }
-        $equipments = $equipments->where('department_id', $user->department_id)->paginate(15);
-        //dd($equipments);
-        return view(
-            'backends.equipments.mediacal',
-            compact(
-                'equipments',
-                'keyword',
-                'sort',
-                'order',
-                'status',
-                'department_name',
-                'departments_key',
-                'cate_name',
-                'cates_key',
-                'device_name',
-                'devices_key',
-                'user_name',
-                'user',
-            )
-        );
-    }
-
-    public function indexGuarantee(Request $request)
-    {
-        $keyword = isset($request->key) ? $request->key : '';
-        $equipments = Equipment::query();
-        if ($keyword != '') {
-            $equipments = $equipments->where(function ($query) use ($keyword) {
-                $query->where('title', 'like', '%' . $keyword . '%')
-                    ->orWhere('code', 'like', '%' . $keyword . '%')
-                    ->orWhere('model', 'like', '%' . $keyword . '%')
-                    ->orWhere('serial', 'like', '%' . $keyword . '%');
-            });
-        }
-        $equipments = $equipments->orderBy('created_at', 'desc')->paginate(15);
-        return view('backends.guarantees.list', compact('equipments', 'keyword'));
-    }
-
     public function showHistory()
     {
         $user = Auth::user();
         if ($user->can('history_status.read')) {
             $activities = Activity::where("description", "updated")
-                ->where("subject_type", "App\Models\Equipment")
+                ->where("subject_type", "App\Models\Eqproperty")
                 ->whereJsonContains('properties->attributes->type', 'devices')
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('backends.equipments.history', compact('activities'));
+            return view('backends.eqproperties.history', compact('activities'));
         } else {
             abort(403);
         }
@@ -269,7 +194,7 @@ class EqpropertyController extends Controller
         } else {
             $request->session()->flash('error', 'Có lỗi!');
         }
-        return redirect()->route('equipment.history');
+        return redirect()->route('eqproperty.history');
     }
 
     public function show(Request $request, $id)
@@ -289,7 +214,7 @@ class EqpropertyController extends Controller
     {
         $equipments = Eqproperty::findOrFail($id);
         $activities = Activity::where("subject_type", "App\Models\Eqproperty")->where("subject_id", $equipments->id)->orderBy('created_at', 'desc')->get();
-        $pdf = PDF::loadView('backends.equipments.pdf', compact('equipments', 'activities'));
+        $pdf = PDF::loadView('backends.eqproperties.pdf', compact('equipments', 'activities'));
         return $pdf->download('' . $equipments->title . '.pdf');
         //return view('backends.equipments.pdf', compact('equipments', 'activities'));
     }
@@ -325,77 +250,6 @@ class EqpropertyController extends Controller
         } else {
             abort(403);
         }
-    }
-
-    public function createSupplie($id)
-    {
-        $user = Auth::user();
-        if ($user->can('equipment.create_supplie')) {
-            $equipments = Equipment::findOrFail($id);
-            $maintenances = Provider::select('id', 'title', 'type')->maintenance()->get();
-            $providers = Provider::select('id', 'title', 'type')->provider()->get();
-            $repairs = Provider::select('id', 'title', 'type')->repair()->get();
-            $users = User::select('id', 'name')->get();
-            $units = Unit::select('id', 'title')->get();
-            $departments = Department::select('id', 'title')->get();
-            $supplies = Supplie::select('id', 'title')->get();
-            $cur_day = Carbon::now()->format('Y-m-d');
-            return view('backends.equipments.createsupplie', compact(
-                'maintenances',
-                'providers',
-                'repairs',
-                'users',
-                'units',
-                'departments',
-                'supplies',
-                'equipments',
-                'cur_day'
-            ));
-        } else {
-            abort(403);
-        }
-    }
-
-    public function storeSupplie(Request $request)
-    {
-        $rules = [
-            'title' => 'required',
-            'supplie_id' => 'required',
-            'amount' => 'required|min:0',
-            'unit_id' => 'required',
-            'import_price' => 'required',
-            'used_amount' => 'numeric|max:' . intval($request->amount) . '| min:0',
-        ];
-        $messages = [
-            'title.required' => 'Vui lòng nhập tên thiết bị!',
-            'supplie_id.required' => 'Vui lòng nhập loại vật tư!',
-            'amount.required' => 'Vui lòng nhập số lượng!',
-            'amount.min' => 'Vui lòng nhập số lượng không được nhỏ hơn 0 !',
-            'unit_id.required' => 'Vui lòng nhập đơn vị tính!',
-            'import_price.required' => 'Vui lòng nhập giá nhập!',
-            'used_amount.max' => 'Số lượng dùng không được nhập vượt quá số lượng !',
-            'used_amount.min' => 'Số lượng dùng không được nhập nhỏ hơn 0 !',
-        ];
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails()) :
-            return redirect()->back()->withErrors($validator)->withInput();
-        else :
-            $atribute = $request->all();
-            $eqsupplies = Eqsupplie::create($atribute);
-            $eqsupplies->save();
-            // mã code
-            $padded_supplie_id = Str::padLeft($eqsupplies->id, 5, 'VT');
-            $newYear = Carbon::now()->format('dmY');
-            $eqsupplies['code'] = $newYear . '-' . $padded_supplie_id;
-            $eqsupplies->save();
-            // n-n
-            $eqsupplies->supplie_devices()->attach($request->supplie_devices, ['note' => 'spelled_by_device', 'amount' => $request->used_amount, 'user_id' => Auth::user()->id]);
-            if ($eqsupplies) {
-                return redirect()->back()->with('success', 'Thêm thành công');
-            } else {
-                return redirect()->back()->with('success', 'Thêm không thành công');
-            }
-        endif;
     }
 
     public function store(Request $request)
@@ -434,7 +288,7 @@ class EqpropertyController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) :
-            return redirect()->route('equipment.create')->withErrors($validator)->withInput();
+            return redirect()->route('eqproperty.create')->withErrors($validator)->withInput();
         else :
             $atribute = $request->all();
 
@@ -554,7 +408,7 @@ class EqpropertyController extends Controller
             return redirect()->route('eqproperty.edit', $id)->withErrors($validator)->withInput();
         else :
             $atribute = $request->all();
-            
+
 
             $equipments->update($atribute);
 

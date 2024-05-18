@@ -8,7 +8,7 @@ if(env("APP_ENV") == "production"){
     include __DIR__ . "/../../../helpers/ExternalQualityAssessmentHelper.php";
 }
 else{
-    include __DIR__ . "\..\..\..\helpers\ExternalQualityAssessmentHelper.php";
+    include __DIR__ . "/../../../helpers/ExternalQualityAssessmentHelper.php";
 }
 
 

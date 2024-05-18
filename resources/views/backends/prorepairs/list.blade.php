@@ -97,13 +97,12 @@
                                                 @php
                                                     $item = $equipment->schedule_repairs->sortByDesc('planning_date')->first();
                                                     $count = $equipment->schedule_repairs->count();
-                                                    $check = isset($item) ? $item->acceptance == 'accepted' || $item->acceptance == 'not_accepted' : 'false';
+                                                    $check = isset($item) ? $item->acceptance == 'accepted' || $item->acceptance == 'not_accepted' || $item->acceptance == 'unknown' : 'false';
                                                 @endphp
                                                 <tr class="text-center">
                                                     <td>{{ ++$key }}</td>
                                                     <td>{{ isset($equipment->title) ? $equipment->title : '-' }}</td>
                                                     <td>{{ isset($equipment->model) ? $equipment->model : '-' }}</td>
-                                                    </td>
                                                     <td>{{ isset($equipment->serial) ? $equipment->serial : '-' }}</td>
 
                                                     <td>{{ isset($equipment->hash_code) ? $equipment->hash_code : '-' }}</td>

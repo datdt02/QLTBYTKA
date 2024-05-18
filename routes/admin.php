@@ -39,6 +39,7 @@ use App\Http\Controllers\backends\TransferController;
 use App\Http\Controllers\backends\ProtransferController;
 use App\Http\Controllers\backends\UnitController;
 use App\Http\Controllers\backends\UserAdminController;
+use App\Http\Controllers\backends\QrController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -691,6 +692,7 @@ Route::group(['prefix' => 'inventory'], function () {
         Route::get('/completed-inventory', [InventoryController::class, 'completedInventory'])->name('inventory.completedInventory');
         Route::post('/browser', [InventoryController::class, 'browserInventory'])->name('inventory.browserInventory');
         Route::get('/export-equipment', [InventoryController::class, 'exportEquipment'])->name('inventory.exportEquipment');
+        Route::get('/show-pdf', [InventoryController::class, 'showPdf'])->name('inventory.showPdf');
         Route::get('/history-inventory', [InventoryController::class, 'historyInventory'])->name('inventory.historyInventory');
     });
     Route::group(['prefix' => 'equip-{equip_id}'], function () {
@@ -712,6 +714,12 @@ Route::group(['prefix' => 'inventorysup'], function () {
         Route::post('/browser', [InventorySupController::class, 'browserInventory'])->name('inventorysup.browserInventory');
         Route::get('/export-equipment', [InventorySupController::class, 'exportEquipment'])->name('inventorysup.exportEquipment');
     });
+});
+// QR
+Route::group(['prefix' => 'qr'], function (){
+    Route::get('/', [QrController::class, 'index'])->name('qr.index');
+    Route::get('/depart-{depart_id}', [QrController::class, 'listEquipment'])->name('qr.listEquipment');
+    Route::get('/pdf-{depart_id}', [QrController::class, 'showPdf'])->name('qr.showPdf');
 });
 
 Route::get('/clear-cache', function () {
