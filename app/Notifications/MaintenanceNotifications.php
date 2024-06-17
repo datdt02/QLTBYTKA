@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Equipment;
+use App\Models\Eqproperty;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class MaintenanceNotifications extends Notification
     private $equipment;
     private $subject;
 
-    public function __construct(Equipment $equipment, string $subject)
+    public function __construct($equipment, string $subject)
     {
         //
         $this->equipment = $equipment;
