@@ -5,7 +5,7 @@
    <section class="content">
       <div class="container">
          <div class="head mb-1 mt-3 pt-2 pb-2">
-            <h1 class="title">{{ __('Cập nhật lịch bảo dưỡng cho thiết bị') }}</h1>
+            <h1 class="title">{{ __('Cập nhật lịch bảo dưỡng cho tài sản') }}</h1>
          </div>
          <div class="pt-3">
             <div class="card">
@@ -19,7 +19,7 @@
                         <li class="list-inline-item">{{ __('Serial: ') }}<strong>{{ $equipment->serial }}</strong></li>
                      </ul>
                   </div>
-                  <form action="{{ route('equip_maintenance.update',['equip_id'=>$equipment->id, 'main_id'=>$maintenance->id]) }}" class="dev-form" method="POST" data-toggle="validator" role="form">
+                  <form action="{{ route('maintenances_pro.update',['equip_id'=>$equipment->id, 'main_id'=>$maintenance->id]) }}" class="dev-form" method="POST" data-toggle="validator" role="form">
                      @csrf
 
                      <div class="row">
@@ -44,7 +44,7 @@
                      </div>
                      <div class="group-action">
                         <button type="submit" class="btn btn-success">{{ __('Sửa') }}</button>
-                        <a href="{{ route('equip_maintenance.showHistories',['equip_id'=>$equipment->id]) }}" class="btn btn-secondary">{{ __('Trở về') }}</a>
+                        <a href="{{ route('maintenances_pro.showHistories',['equip_id'=>$equipment->id]) }}" class="btn btn-secondary">{{ __('Trở về') }}</a>
                      </div>
                   </form>
                </div>

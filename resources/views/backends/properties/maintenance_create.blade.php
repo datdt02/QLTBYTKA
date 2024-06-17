@@ -5,7 +5,7 @@
    <section class="content">
       <div class="container">
          <div class="head mb-1 mt-3 pt-2 pb-2">
-            <a href="{{ route('equip_maintenance.index') }}" class="float-left mt-2"><i class="fas fa-angle-left"></i> {{ __('Tất cả') }}</a>
+            <a href="{{ route('maintenances_pro.index') }}" class="float-left mt-2"><i class="fas fa-angle-left"></i> {{ __('Tất cả') }}</a>
             <h1 class="title">{{ __('Tạo lịch bảo dưỡng cho thiết bị') }}</h1>
          </div>
          <div class="pt-3">
@@ -20,7 +20,7 @@
                         <li class="list-inline-item">{{ __('Serial: ') }}<strong>{{ $equipment->serial }}</strong></li>
                      </ul>
                   </div>
-                  <form action="{{ route('equip_maintenance.store',['equip_id'=>$equipment->id]) }}" class="dev-form" method="POST" data-toggle="validator" role="form">
+                  <form action="{{ route('maintenances_pro.store',['equip_id'=>$equipment->id]) }}" class="dev-form" method="POST" data-toggle="validator" role="form">
                      @csrf
                      <div class="row">
 
@@ -57,7 +57,7 @@
                      </div>
                      <div class="group-action">
                         <button type="submit" class="btn btn-success">{{ __('Thêm') }}</button>
-                        <a href="{{ route('equip_maintenance.index') }}" class="btn btn-secondary">{{ __('Trở về') }}</a>
+                        <a href="{{ route('maintenances_pro.index') }}" class="btn btn-secondary">{{ __('Trở về') }}</a>
                      </div>
                   </form>
                   <div class="list-main mt-3">
@@ -85,7 +85,7 @@
                                           <td class="text-center">{{ $item->start_date }}</td>
                                           <td class="text-center">{{ $item->note }}</td>
                                           <td class="text-center">
-                                             <a href="{{ route('equip_maintenance.edit',['main_id'=>$item->id, 'equip_id'=>$equipment->id]) }}" class="mr-2"><i class="fas fa-pencil-alt"></i></a>
+                                             <a href="{{ route('maintenances_pro.edit',['main_id'=>$item->id, 'equip_id'=>$equipment->id]) }}" class="mr-2"><i class="fas fa-pencil-alt"></i></a>
                                              {{-- <a href="{{ route('equip_maintenance.delete',['main_id'=>$item->id, 'equip_id'=>$equipment->id]) }}" data-toggle="modal" data-target="#sideModal" data-direct="modal-top-right"><i class="fas fa-trash text-danger"></i></a> --}}
                                           </td>
                                        </tr>

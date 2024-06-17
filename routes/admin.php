@@ -22,6 +22,7 @@ use App\Http\Controllers\backends\LicenseRenewalOfRadiationWorkController;
 use App\Http\Controllers\backends\LiquidationController;
 use App\Http\Controllers\backends\ProLiquidController;
 use App\Http\Controllers\backends\MaintenanceController;
+use App\Http\Controllers\backends\ProMaintenanceController;
 use App\Http\Controllers\backends\ManuallySendNotificationEmails;
 use App\Http\Controllers\backends\media\MediaAdminController;
 use App\Http\Controllers\backends\media\MediaCatAdminController;
@@ -400,6 +401,18 @@ Route::group(['prefix' => 'equipment'], function () {
         });
     });
 });
+Route::group(['prefix' => 'maintenances_pro'], function () {
+    Route::get('/', [ProMaintenanceController::class, 'index'])->name('maintenances_pro.index');
+    Route::get('/export-mainte', [ProMaintenanceController::class, 'exportEquipMainte'])->name('maintenances_pro.exportEquipMainte');
+    Route::group(['prefix' => 'equip-{equip_id}'], function () {
+        Route::get('/create', [ProMaintenanceController::class, 'create'])->name('maintenances_pro.create');
+        Route::post('/create', [ProMaintenanceController::class, 'store'])->name('maintenances_pro.store');
+        Route::get('/showHistories', [ProMaintenanceController::class, 'showHistories'])->name('maintenances_pro.showHistories');
+        Route::get('/edit/{main_id}', [ProMaintenanceController::class, 'edit'])->name('maintenances_pro.edit');
+        Route::post('/edit/{main_id}', [ProMaintenanceController::class, 'update'])->name('maintenances_pro.update');
+        Route::post('/delete/{main_id}', [ProMaintenanceController::class, 'destroy'])->name('maintenances_pro.delete');
+    });
+});
 Route::group(['prefix' => 'eqproperty'], function () {
     Route::get('/device', [EqpropertyController::class, 'index'])->name('eqproperty.index');
     Route::get('/listImports', [EqpropertyController::class, 'listImport'])->name('eqproperty.listimport');
@@ -720,6 +733,7 @@ Route::group(['prefix' => 'qr'], function (){
     Route::get('/', [QrController::class, 'index'])->name('qr.index');
     Route::get('/depart-{depart_id}', [QrController::class, 'listEquipment'])->name('qr.listEquipment');
     Route::get('/pdf-{depart_id}', [QrController::class, 'showPdf'])->name('qr.showPdf');
+    Route::get('/equip-{equip_id}', [QrController::class, 'PrintPdf'])->name('qr.showEqPdf');
 });
 
 Route::get('/clear-cache', function () {

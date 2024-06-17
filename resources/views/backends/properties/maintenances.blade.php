@@ -1,5 +1,5 @@
 @extends('backends.templates.master')
-@section('title', __('Danh sách thiết bị cần bảo dưỡng, bảo trì'))
+@section('title', __('Danh sách tài sản cần bảo dưỡng, bảo trì'))
 @section('content')
     @php
         $statusEquipments = get_statusEquipments();
@@ -19,7 +19,7 @@
     <div id="list-events" class="content-wrapper events">
         <section class="content">
             <div class="head container">
-                <h1 class="title">{{ __('Danh sách thiết bị cần bảo dưỡng, bảo trì') }}</h1>
+                <h1 class="title">{{ __('Danh sách tài sản cần bảo dưỡng, bảo trì') }}</h1>
             </div>
             <div class="main">
                 <div class="container-fluid">
@@ -27,13 +27,13 @@
                         <div class="col-md-2 filter">
                             <ul class="nav-filter">
                                 <li class="active"><a
-                                        href="{{ route('equip_maintenance.index') }}">{{ __('Tất cả') }}</a></li>
+                                        href="{{ route('maintenances_pro.index') }}">{{ __('Tất cả') }}</a></li>
                                 <li class="">
                                     <a
                                         class="btn btn-success"
                                         style="color: #fff;"
                                         href="{{
-                            route('equip_maintenance.exportEquipMainte',
+                            route('maintenances_pro.exportEquipMainte',
                                     ['keyword'=>$keyword,'departments_key'=>$departments_key, 'devices_key' => $devices_key,
                                     'status'=>$status, 'time_nextMainte'=>$time_nextMainte, 'cates_key'=>$cates_key]) }}">
                                         <i class="far fa-file-excel"></i> {{__('Xuất Excel') }}
@@ -42,7 +42,7 @@
                             </ul>
                         </div>
                         <div class="col-md-10 search-form">
-                            <form id="equiment-form-filter" action="{{ route('equip_maintenance.index') }}"
+                            <form id="equiment-form-filter" action="{{ route('maintenances_pro.index') }}"
                                   method="GET">
                                 <div class="row">
 
@@ -156,14 +156,14 @@
                                                     </td>
                                                     <td class="group-action action text-nowrap">
                                                         <a title="Hồ sơ thiết bị"
-                                                           href="{{ route('equipment.show' , $item->id )}}">
+                                                           href="{{ route('eqproperty.show' , $item->id )}}">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                         {{-- <a href="{{ route('eqrepair.history',['equip_id'=>$item->id]) }}" title="{{ __('Lịch sử sửa chữa') }}"><i class="fas fa-tools"></i></a> --}}
-                                                        <a href="{{ route('equip_maintenance.showHistories',['equip_id'=>$item->id]) }}"
+                                                        <a href="{{ route('maintenances_pro.showHistories',['equip_id'=>$item->id]) }}"
                                                            class="ml-1 mr-1" title="{{ __('Lịch sử bảo dưỡng') }}"><i
                                                                 class="fas fa-history"></i></a>
-                                                        <a href="{{ route('equip_maintenance.create',['equip_id'=>$item->id]) }}"
+                                                        <a href="{{ route('maintenances_pro.create',['equip_id'=>$item->id]) }}"
                                                            title="{{ __('Tạo lịch sử bảo dưỡng') }}"><i
                                                                 class="fas fa-plus-square"></i></a>
                                                     </td>

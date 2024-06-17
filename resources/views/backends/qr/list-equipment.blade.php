@@ -40,7 +40,7 @@
                                     <td>{{ $item->serial}}</td>
                                     <td>{!! QrCode::size(125)->generate($item->id) !!}</td>
                                     <td class="group-action action text-nowrap">
-                                       <a class="btn btn-primary btn-sm" href="{{ route('inventory.listInventory',['equip_id'=>$item->id]) }}" class="ml-1 mr-1" title="{{ __('Lịch sử kiểm kê') }}"><i class="fa fa-list-alt"></i></a>
+                                       <a class="btn btn-primary btn-sm" href="{{ route('qr.showEqPdf',['equip_id'=>$item->id]) }}" class="ml-1 mr-1" title="{{ __('In PDF') }}"><i class="fa fa-print" style="margin: 0"></i></a>
                                     </td>
                                  </tr>
                               @endforeach

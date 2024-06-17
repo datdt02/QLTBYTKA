@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backends;
 
 use App\Models\Department;
+use App\Models\Equipment;
 use PDF;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -43,13 +44,15 @@ class QrController extends Controller
             'department'         => $department,
             'equipments'         => $equipments,
         ];
-        // return view('backends.qr.pdf', compact('data'));
-        $pdf = PDF::loadView('backends.qr.pdf', compact('data'));
-        return $pdf->download('Danh sách QR code ' . $department->title . '.pdf');
+         return view('backends.qr.pdf', compact('data'));
+//        $pdf = PDF::loadView('backends.qr.pdf', compact('data'));
+//        return $pdf->download('Danh sách QR code ' . $department->title . '.pdf');
     }
-    public function create()
+    public function PrintPdf(Request $request, $equip_id)
     {
-        //
+        $equipment = Equipment::findOrFail($equip_id);
+
+        return view('backends.qr.pdf-equipment', compact('equipment'));
     }
 
     public function store(Request $request)

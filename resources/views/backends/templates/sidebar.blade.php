@@ -301,17 +301,13 @@
                 @endcan
                 <li class="nav-item has-treeview{{ Request::is('admin/eqproperty/device','admin/eqproperty/device*',
             'admin/prorepair', 'admin/prorepair/*',
-            'admin/eqproperty/maintenances', 'admin/eqproperty/maintenances/*',
             'admin/accre', 'admin/accre*',
             'admin/protran', 'admin/protran/*',
             'admin/eqproperty/history', 'admin/eqproperty/history/*',
             'admin/eqproperty/listImports', 'admin/eqproperty/listImports/*',
             'admin/eqproperty/create-view', 'admin/eqproperty/create-view/*',
-            'admin/guarantee',
-            'admin/ballot',
-            'admin/ballot/create',
+            'admin/maintenances_pro','admin/maintenances_pro/*',
             'admin/proliquis', 'admin/proliquis/*',
-            'admin/eqproperty/mediacal', 'admin/eqproperty/mediacal/*',
             'admin/eqproperty/edit', 'admin/eqproperty/edit/*',
             )? ' menu-open': '' }}">
                     <a href="#" class="nav-link">
@@ -353,12 +349,12 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('guarantee.read')
+                        @can('maintenance_pro.read')
                             <li class="nav-item">
-                                <a href="{{ route('guarantee.index') }}"
-                                   class="nav-link {{ Request::is('admin/guarantee')? ' active': '' }}">
+                                <a href="{{ route('maintenances_pro.index') }}"
+                                   class="nav-link {{ Request::is('admin/maintenances_pro')? ' active': '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ __('Bảo hành') }}</p>
+                                    <p>{{ __('Bảo dưỡng định kì') }}</p>
                                 </a>
                             </li>
                         @endcan
@@ -382,7 +378,7 @@
                         @endcan
                     </ul>
                 </li>
-                <li class="nav-item has-treeview">
+                <li class="nav-item has-treeview{{ Request::is('admin/qr/*')? ' menu-open': '' }}">
                     <a href="#" class="nav-link">
                         <i class="fas fa-solid fa-qrcode"></i>
                         <p style="margin-left: 2px;">{{ __('Quản lý mã QR') }}<i class="fas fa-angle-left right"></i></p>

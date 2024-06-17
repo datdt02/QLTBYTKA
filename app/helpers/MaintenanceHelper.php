@@ -37,6 +37,39 @@ if (!function_exists('sendCreatedMaintenanceEmail')) {
 
     }
 }
+if (!function_exists('sendCreatedProMaintenanceEmail')) {
+    function sendCreatedProMaintenanceEmail(\App\Models\Eqproperty $equipment)
+    {
+        $content = '<div class="content">
+                                <h4>' . __('Thông tin thiết bị được tạo lịch bảo dưỡng') . '</h4>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr><td>' . __('Tên thiết bị: ') . '</td><td>' . $equipment->title . '</td></tr>
+                                        <tr><td>' . __('Mã hoá TB: ') . '</td><td>' . $equipment->hash_code . '</td></tr>
+                                        <tr><td>' . __('Model: ') . '</td><td>' . $equipment->model . '</td></tr>
+                                        <tr><td>' . __('Serial: ') . '</td><td>' . $equipment->serial . '</td></tr>
+                                        <tr><td>' . __('Ngày bảo dưỡng lần cuối: ') . '</td><td>' . $equipment->last_maintenance . '</td></tr>
+                                        <tr><td>' . __('Chu kỳ bảo dưỡng: ') . '</td><td>' . $equipment->regular_maintenance . '</td></tr>
+                                        <tr><td>' . __('Bảo dưỡng lần tới: ') . '</td><td>' . $equipment->next_maintenance . '</td></tr>
+                                        <tr><td>' . __('Đơn vị thực hiện: ') . '</td><td>' . $equipment->maintenances->last()->provider . '</td></tr>
+                                        <tr><td>' . __('Ghi chú: ') . '</td><td>' . $equipment->maintenances->last()->note . '</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>';
+
+        $array_emails = getUserPhcToMail($equipment->id);
+
+        $data = array('email' => $array_emails,
+            'equipments_department' => $equipment->eqproperty_department,
+            'from' => 'phongvt.ttb.bvkienan@gmail.com',
+            'content' => $content,
+            'title' => $equipment->title,
+            "fromSubject" => "Thông báo bảo dưỡng",
+            "subject" => "Thiết bị " . " [" . $equipment->title . "] đã được tạo lịch bảo dưỡng");
+        sendEmail($data);
+
+    }
+}
 if (!function_exists('sendUpdatedMaintenanceEmail')) {
     /**
      * @param Equipment $equipment
@@ -108,6 +141,19 @@ if (!function_exists('sendCreatedMaintenanceNotification')) {
     function sendCreatedMaintenanceNotification(Equipment $equipment)
     {
         $array_user = getUserToNotify($equipment->id, ['admin', 'Nvpvt', 'TPVT', 'PTPVT']);
+        $subject = "Thiết bị [" . $equipment->title . "] đã được cập nhật lịch bảo dưỡng";
+        if ($array_user != null) {
+            foreach ($array_user as $id) {
+                $user = User::findOrFail($id);
+                $user->notify(new MaintenanceNotifications($equipment, $subject));
+            }
+        }
+    }
+}
+if (!function_exists('sendCreatedProMaintenanceNotification')) {
+    function sendCreatedProMaintenanceNotification(\App\Models\Eqproperty $equipment)
+    {
+        $array_user = getUserPhcToNotify($equipment->id, ['admin', 'Nvphc', 'tphc']);
         $subject = "Thiết bị [" . $equipment->title . "] đã được cập nhật lịch bảo dưỡng";
         if ($array_user != null) {
             foreach ($array_user as $id) {

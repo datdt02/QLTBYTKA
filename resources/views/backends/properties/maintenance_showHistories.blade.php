@@ -5,8 +5,8 @@
    <section class="content">
       <div class="container">
          <div class="head mb-1 mt-3 pt-2 pb-2">
-            <a href="{{ route('equip_maintenance.index') }}" class="float-left mt-2"><i class="fas fa-angle-left"></i> {{ __('Tất cả') }}</a>
-            <h1 class="title">{{ __('Thống kê lịch bảo dưỡng cho thiết bị') }}</h1>
+            <a href="{{ route('maintenances_pro.index') }}" class="float-left mt-2"><i class="fas fa-angle-left"></i> {{ __('Tất cả') }}</a>
+            <h1 class="title">{{ __('Thống kê lịch bảo dưỡng cho tài sản') }}</h1>
          </div>
          <div class="pt-3">
             <div class="card">
@@ -45,8 +45,8 @@
                                           <td class="text-center">{{ $item->start_date }}</td>
                                           <td class="text-center">{{ $item->note }}</td>
                                           <td class="text-right">
-                                             <a href="{{ route('equip_maintenance.edit',['main_id'=>$item->id, 'equip_id'=>$equipment->id]) }}" class="mr-2"><i class="fas fa-pencil-alt"></i></a>
-                                             <a href="{{ route('equip_maintenance.delete',['main_id'=>$item->id, 'equip_id'=>$equipment->id]) }}" data-toggle="modal" data-target="#sideModal" data-direct="modal-top-right"><i class="fas fa-trash text-danger"></i></a>
+                                             <a href="{{ route('maintenances_pro.edit',['main_id'=>$item->id, 'equip_id'=>$equipment->id]) }}" class="mr-2"><i class="fas fa-pencil-alt"></i></a>
+                                             <a href="{{ route('maintenances_pro.delete',['main_id'=>$item->id, 'equip_id'=>$equipment->id]) }}" data-toggle="modal" data-target="#sideModal" data-direct="modal-top-right"><i class="fas fa-trash text-danger"></i></a>
                                           </td>
                                        </tr>
                                     @endforeach

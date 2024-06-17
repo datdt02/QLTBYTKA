@@ -61,6 +61,10 @@ class Department extends Model
     {
         return $this->hasMany('App\Models\Equipment', 'department_id', 'id');
     }
+    public function department_eqproperty()
+    {
+        return $this->hasMany('App\Models\Eqproperty', 'department_id', 'id');
+    }
 
     public function department_user()
     {
