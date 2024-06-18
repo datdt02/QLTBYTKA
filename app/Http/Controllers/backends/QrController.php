@@ -45,14 +45,16 @@ class QrController extends Controller
             'equipments'         => $equipments,
         ];
          return view('backends.qr.pdf', compact('data'));
-//        $pdf = PDF::loadView('backends.qr.pdf', compact('data'));
-//        return $pdf->download('Danh sách QR code ' . $department->title . '.pdf');
+        $pdf = PDF::loadView('backends.qr.pdf', compact('data'));
+        return $pdf->download('Danh sách QR code ' . $department->title . '.pdf');
     }
     public function PrintPdf(Request $request, $equip_id)
     {
         $equipment = Equipment::findOrFail($equip_id);
 
         return view('backends.qr.pdf-equipment', compact('equipment'));
+//        $pdf = PDF::loadView('backends.qr.pdf-equipment', compact('equipment'));
+//        return $pdf->download('QR code ' . $equipment->title . '.pdf');
     }
 
     public function store(Request $request)
