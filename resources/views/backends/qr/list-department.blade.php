@@ -1,7 +1,7 @@
 @extends('backends.templates.master')
 @section('title', __('Danh sách tất cả các khoa'))
 @section('content')
-<div id="list-events" class="content-wrapper events">     
+<div id="list-events" class="content-wrapper events">
    <section class="content">
       <div class="head container">
          <h1 class="title">{{ __('Danh sách tất cả các khoa') }}</h1>
@@ -24,18 +24,28 @@
                            </tr>
                         </thead>
                         <tbody class="tbody">
-                           @if(!$departments->isEmpty())
-                              @foreach($departments as $key =>$item)
+                           @if($departments instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                              @foreach($departments as $index =>$item)
                                  <tr class="text-center">
-                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $index+1 }}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>{{ $item->email}}</td>
                                     <td>{{ $item->address}}</td>
                                     <td class="group-action action text-nowrap">
-                                       <a class="btn btn-primary btn-sm" href="{{ route('qr.listEquipment',['depart_id'=>$item->id]) }}" class="ml-1 mr-1" title="{{ __('Danh sách thiết bị') }}"><i class="fas fa-check"></i></a>
-                                    </td> 
+                                       <a class="btn btn-primary btn-sm ml-1 mr-1" href="{{ route('qr.listEquipment',['depart_id'=>$item->id]) }}" title="{{ __('Danh sách thiết bị') }}"><i class="fas fa-check"></i></a>
+                                    </td>
                                  </tr>
                               @endforeach
+                           @elseif(!$departments->department_equipment->isEmpty())
+                               <tr class="text-center">
+                                   <td>{{ 1 }}</td>
+                                   <td>{{ $departments->title }}</td>
+                                   <td>{{ $departments->email}}</td>
+                                   <td>{{ $departments->address}}</td>
+                                   <td class="group-action action text-nowrap">
+                                       <a class="btn btn-primary btn-sm ml-1 mr-1" href="{{ route('qr.listEquipment',['depart_id'=>$item->id]) }}" title="{{ __('Danh sách thiết bị') }}"><i class="fas fa-check"></i></a>
+                                   </td>
+                               </tr>
                            @else
                               <tr>
                                  <td colspan="7">{{ __('No items!') }}</td>
@@ -45,7 +55,9 @@
                      </table>
                   </div>
                </form>
-               <div class="p-3 mt-2">{{ $departments->links() }}</div>
+                @if($departments->count() > 15)
+{{--               <div class="p-3 mt-2">{{ $departments->links() }}</div>--}}
+                @endif
             </div>
          </div>
       </div>

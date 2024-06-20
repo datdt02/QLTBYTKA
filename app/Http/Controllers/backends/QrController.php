@@ -18,7 +18,13 @@ class QrController extends Controller
      */
     public function index(Request $request)
     {
-        $departments = Department::has('department_equipment')->with('department_equipment', 'inventories')->paginate(15);
+        $user = Auth::user();
+        if($user->can('qr.show_all')){
+            $departments = Department::has('department_equipment')->with('department_equipment', 'inventories')->paginate(15);
+        }else {
+            $depart_id = $user->user_department->id;
+            $departments = Department::findOrFail($depart_id);
+        }
         $data = [
             'departments'        => $departments,
         ];
